@@ -341,6 +341,70 @@
     padding: 30px;
     max-width: 420px;
     margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ---------- connect confirmation animation (AirDrop-style mic rise + ping) ---------- */
+  .connect-anim {
+    position: absolute;
+    inset: 0;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .connect-anim.play { animation: connect-fade 1.6s ease forwards; }
+  @keyframes connect-fade {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    78%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  .connect-anim-ring {
+    position: absolute;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.55);
+    opacity: 0;
+  }
+  .connect-anim.play .ring1 { animation: ring-expand 1.3s ease-out .15s; }
+  .connect-anim.play .ring2 { animation: ring-expand 1.3s ease-out .38s; }
+  .connect-anim.play .ring3 { animation: ring-expand 1.3s ease-out .61s; }
+  @keyframes ring-expand {
+    0%   { transform: scale(.3); opacity: .8; }
+    100% { transform: scale(2.8); opacity: 0; }
+  }
+  .connect-anim-mic {
+    width: 60px; height: 60px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.14);
+    display: flex; align-items: center; justify-content: center;
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  .connect-anim-mic svg { width: 28px; height: 28px; }
+  .connect-anim.play .connect-anim-mic {
+    animation: mic-rise .7s cubic-bezier(.34,1.56,.64,1) .2s forwards;
+  }
+  @keyframes mic-rise {
+    0%   { transform: translateY(40px) scale(.7); opacity: 0; }
+    60%  { transform: translateY(-6px) scale(1.05); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .connect-anim-label { color: #fff; font-weight: 700; font-size: 13px; letter-spacing: .04em; opacity: 0; }
+  .connect-anim.play .connect-anim-label { animation: label-fade .5s ease .85s forwards; }
+  @keyframes label-fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .connect-anim.play, .connect-anim.play * { animation: none !important; opacity: 0 !important; }
   }
   .wear-dot-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
   .wear-dot { width: 10px; height: 10px; border-radius: 50%; background: #d1cabb; transition: background .2s; }
@@ -462,6 +526,44 @@
     padding: 18px 60px 26px;
   }
   .page-footer-inner { max-width: 1080px; margin: 0 auto; }
+
+  /* ---------- distress signal ---------- */
+  .distress-banner {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: #b23b2e;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    font-size: 13.5px;
+    font-weight: 600;
+    transform: translateY(-110%);
+    transition: transform .3s ease;
+  }
+  .distress-banner.show { transform: translateY(0); }
+  .distress-banner svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .distress-card { border-color: #e3b3ab; }
+  .distress-card h2 { display: flex; align-items: center; gap: 8px; }
+  .distress-status { font-size: 13px; color: var(--text-main); font-weight: 600; margin: 14px 0; }
+  .distress-status.set { color: #b23b2e; }
+  .distress-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .distress-disclaimer { font-size: 11.5px; color: var(--text-dim); margin-top: 14px; line-height: 1.5; }
+
+  .loc-link-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .loc-link-row input {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text-main);
+  }
 </style>
 </head>
 <body>
@@ -607,13 +709,71 @@
       <button class="btn-sm danger" onclick="resetCameraLibrary()">Start a fresh library</button>
     </div>
   </div>
+
+  <div class="lib-card distress-card">
+    <h2>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#b23b2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Distress signal
+    </h2>
+    <div class="lib-sub">Record one gesture that means "I need help." Hold it in front of the camera for about a second and VOXA will speak an alert and open your phone's dialer with <b>+971 50 956 9757</b> ready to call.</div>
+
+    <div class="distress-status" id="camDistressStatus">No distress gesture set yet.</div>
+
+    <button class="lib-add-toggle" id="camDistressOpenBtn" onclick="openDistressFormCam()">+ Record distress gesture</button>
+
+    <div class="lib-form" id="camDistressForm" style="display:none;">
+      <div class="lib-connect-row" id="camDistressConnectRow">
+        <button class="btn-sm" id="camDistressConnectBtn" onclick="startCameraForTraining()">Start Camera</button>
+        <span class="lib-connect-status" id="camDistressConnectStatus">Camera not running — start it to record.</span>
+      </div>
+      <div class="lib-record-row">
+        <button class="btn-sm" id="camDistressStartBtn" onclick="startCamDistressRecording()">Start recording (3 reps)</button>
+      </div>
+      <div class="train-status" id="camDistressTrainStatus"></div>
+      <div class="rep-counter" id="camDistressRepCounter">0 reps recorded — record at least 3.</div>
+      <div class="lib-form-actions">
+        <button class="primary" id="camDistressSaveBtn" onclick="saveDistressCam()" disabled>Save distress gesture</button>
+        <button class="btn-sm" id="camDistressCancelBtn" onclick="closeDistressFormCam()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="distress-actions">
+      <button class="btn-sm danger" id="camDistressClearBtn" onclick="clearDistressCam()" disabled>Clear distress gesture</button>
+      <button class="btn-sm" onclick="callDistressNow()">Test: open dialer now</button>
+    </div>
+    <div class="distress-disclaimer">This opens your phone's own dialer, pre-filled — it can't place the call silently by itself; someone still needs to tap Call. Works best on a phone browser (a desktop needs a calling app like Skype set as its default for tel: links to do anything).</div>
+  </div>
 </div>
 
 <!-- ---------- WEARABLE PAGE ---------- -->
 <div id="page-wearable" class="page">
-  <div class="eyebrow"><span class="dot" style="background:#d9a15c"></span> Requires the physical device</div>
-  <h1>Wearable Mode</h1>
-  <div class="subtitle">Gesture-to-speech from the VOXA wristband — reads wrist motion directly over USB, no camera needed.</div>
+  <div class="hero-row">
+    <div class="hero-text">
+      <div class="eyebrow"><span class="dot" style="background:#d9a15c"></span> Requires the physical device</div>
+      <h1>Wearable Mode</h1>
+      <div class="subtitle">Gesture-to-speech from the VOXA wristband — reads wrist motion directly over USB, no camera needed.</div>
+    </div>
+    <div class="hero-graphic" aria-hidden="true">
+      <svg viewBox="0 0 300 300" width="300" height="300">
+        <circle cx="150" cy="150" r="138" fill="none" stroke="#ddd6c6" stroke-width="1.5" stroke-dasharray="2 8"/>
+        <circle cx="150" cy="150" r="106" fill="none" stroke="#ddd6c6" stroke-width="1.5" stroke-dasharray="2 8"/>
+        <path d="M110 90 Q88 150 110 210" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round"/>
+        <path d="M190 90 Q212 150 190 210" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round"/>
+        <rect x="103" y="103" width="94" height="94" rx="20" fill="#111"/>
+        <g transform="translate(150,150) scale(1.9) translate(-12,-12)" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="16" height="16" rx="3"/>
+          <line x1="9" y1="1" x2="9" y2="4"/>
+          <line x1="15" y1="1" x2="15" y2="4"/>
+          <line x1="9" y1="20" x2="9" y2="23"/>
+          <line x1="15" y1="20" x2="15" y2="23"/>
+          <line x1="1" y1="9" x2="4" y2="9"/>
+          <line x1="1" y1="15" x2="4" y2="15"/>
+          <line x1="20" y1="9" x2="23" y2="9"/>
+          <line x1="20" y1="15" x2="23" y2="15"/>
+        </g>
+      </svg>
+    </div>
+  </div>
 
   <div class="notice">
     <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -621,6 +781,19 @@
   </div>
 
   <div class="wear-card">
+    <div class="connect-anim" id="connectAnim" hidden>
+      <div class="connect-anim-ring ring1"></div>
+      <div class="connect-anim-ring ring2"></div>
+      <div class="connect-anim-ring ring3"></div>
+      <div class="connect-anim-mic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+          <line x1="12" y1="18" x2="12" y2="22"/>
+        </svg>
+      </div>
+      <div class="connect-anim-label">Connected</div>
+    </div>
     <div class="wear-dot-row">
       <div class="wear-dot" id="wearDot"></div>
       <div class="wear-status" id="wearStatus">Not connected</div>
@@ -672,6 +845,57 @@
     <div class="lib-reset-row">
       <div class="txt">Wipes every custom word you've added on this browser. Yes/No/Help are unaffected.</div>
       <button class="btn-sm danger" onclick="resetLibrary()">Start a fresh library</button>
+    </div>
+  </div>
+
+  <div class="lib-card distress-card">
+    <h2>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#b23b2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Distress signal
+    </h2>
+    <div class="lib-sub">Record one wrist motion that means "I need help." Perform it and VOXA will speak an alert and open your phone's dialer with <b>+971 50 956 9757</b> ready to call.</div>
+
+    <div class="distress-status" id="wearDistressStatus">No distress gesture set yet.</div>
+
+    <button class="lib-add-toggle" id="wearDistressOpenBtn" onclick="openDistressFormWear()">+ Record distress gesture</button>
+
+    <div class="lib-form" id="wearDistressForm" style="display:none;">
+      <div class="lib-connect-row" id="wearDistressConnectRow">
+        <button class="btn-sm" id="wearDistressConnectBtn" onclick="connectForTraining()">Connect Wearable</button>
+        <span class="lib-connect-status" id="wearDistressConnectStatus">Not connected — connect to record.</span>
+      </div>
+      <div class="lib-record-row">
+        <button class="btn-sm" id="wearDistressStartBtn" onclick="startWearDistressRecording()">Start recording (3 reps)</button>
+      </div>
+      <div class="train-status" id="wearDistressTrainStatus"></div>
+      <div class="rep-counter" id="wearDistressRepCounter">0 reps recorded — record at least 3.</div>
+      <div class="lib-form-actions">
+        <button class="primary" id="wearDistressSaveBtn" onclick="saveDistressWear()" disabled>Save distress gesture</button>
+        <button class="btn-sm" id="wearDistressCancelBtn" onclick="closeDistressFormWear()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="distress-actions">
+      <button class="btn-sm danger" id="wearDistressClearBtn" onclick="clearDistressWear()" disabled>Clear distress gesture</button>
+      <button class="btn-sm" onclick="callDistressNow()">Test: open dialer now</button>
+    </div>
+    <div class="distress-disclaimer">This opens your phone's own dialer, pre-filled — it can't place the call silently by itself; someone still needs to tap Call.</div>
+  </div>
+
+  <div class="lib-card" id="locShareCard">
+    <h2>Share your location</h2>
+    <div class="lib-sub">Send another VOXA wearable user a one-tap link to where you are right now — handy for meeting up when a call or text isn't easy. This is a snapshot, not a live tracker: share a fresh link whenever you move.</div>
+    <button class="primary" id="locShareBtn" onclick="shareMyLocation()">Share my location</button>
+    <div id="locShareResult" style="display:none;">
+      <div class="lib-sub" style="margin-bottom:10px;">Send this link — opening it shows the other person exactly where you were:</div>
+      <div class="loc-link-row">
+        <input type="text" id="locShareLink" readonly onclick="this.select()" />
+        <button class="btn-sm" onclick="copyLocLink()">Copy</button>
+      </div>
+    </div>
+    <div class="notice" id="locReceived" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div id="locReceivedText"></div>
     </div>
   </div>
 
@@ -801,6 +1025,11 @@
 
 </div>
 
+<div class="distress-banner" id="distressBanner">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  <div id="distressBannerText">Distress signal detected — opening your phone's dialer for <b>+971 50 956 9757</b>. Tap Call to connect.</div>
+</div>
+
 <footer class="page-footer">
   <div class="page-footer-inner">Built by Anikeit Rawat, Grade 12 · Bhavans Private International English School · ICT Expo 2026</div>
 </footer>
@@ -894,6 +1123,45 @@ function loadVoices() {
 }
 window.speechSynthesis.onvoiceschanged = loadVoices;
 loadVoices();
+
+/* ===================== DISTRESS SIGNAL (shared: camera + wearable) ===================== */
+// Honest limitation, by design: no website can silently dial a real phone number —
+// browsers only let a "tel:" link hand off to the device's own dialer, and a person
+// (the user, or whoever's nearby) still has to tap Call there. This still gets someone
+// to a ready-to-call screen in under two seconds, which is the best a web page can do.
+const DISTRESS_PHONE = "+971509569757";
+const DISTRESS_PHONE_DISPLAY = "+971 50 956 9757";
+const DISTRESS_COOLDOWN_MS = 15000; // don't spam-trigger while the gesture is held/repeated
+
+let distressBannerTimeout = null;
+
+function showDistressBanner() {
+  const banner = document.getElementById("distressBanner");
+  if (!banner) return;
+  banner.classList.add("show");
+  clearTimeout(distressBannerTimeout);
+  distressBannerTimeout = setTimeout(() => banner.classList.remove("show"), 7000);
+}
+
+function callDistressNow() {
+  window.location.href = "tel:" + DISTRESS_PHONE;
+}
+
+function triggerDistressCall() {
+  showDistressBanner();
+  speak("Distress signal detected. Calling for help now.");
+  // Give the spoken alert a beat to actually start before handing off to the dialer.
+  setTimeout(callDistressNow, 1200);
+}
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const toRad = (d) => (d * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 // Small UX detail: retrigger a quick pop animation whenever a recognized word changes,
 // so successful recognition feels responsive rather than just silently swapping text.
@@ -1024,16 +1292,35 @@ function onResults(results) {
   }
   canvasCtx.restore();
 
-  // Training capture (recording reps for a custom word) is a separate, explicit,
-  // timed flow — it never touches Talk's normal recognition/speak pipeline, and
-  // vice versa, for the same reason as the wearable's training mode.
+  // Training capture (recording reps for a custom word, or for the distress gesture)
+  // is a separate, explicit, timed flow — it never touches Talk's normal
+  // recognition/speak pipeline, and vice versa, for the same reason as the wearable's
+  // training mode.
   if (cameraTrainingCaptureActive) {
     if (singleHandExtended) cameraTrainingFrames.push(singleHandExtended);
+    return;
+  }
+  if (camDistressTrainingCaptureActive) {
+    if (singleHandExtended) camDistressTrainingFrames.push(singleHandExtended);
     return;
   }
   if (cameraTrainingBusy) {
     return;
   }
+
+  // Distress gesture takes priority over everything else, and requires holding the
+  // shape for a beat (not just one frame) so it's a deliberate signal, not a slip.
+  if (singleHandExtended && classifyDistressCamera(singleHandExtended)) {
+    const now = Date.now();
+    if (camDistressHoldStart == null) camDistressHoldStart = now;
+    if (now - camDistressHoldStart >= CAM_DISTRESS_HOLD_MS && now - lastDistressTriggerCam >= DISTRESS_COOLDOWN_MS) {
+      lastDistressTriggerCam = now;
+      camDistressHoldStart = null;
+      triggerDistressCall();
+    }
+    return;
+  }
+  camDistressHoldStart = null;
 
   let resolved = null;
   if (shapes.size === 1) {
@@ -1247,7 +1534,10 @@ function setCameraTrainStatus(msg) {
 }
 
 function setCameraFormBusy(busy) {
-  const ids = ["camLibStartRecordBtn", "camRepStepDown", "camRepStepUp", "camLibSaveBtn", "camLibCancelBtn", "camLibConnectBtn", "camBtn"];
+  const ids = [
+    "camLibStartRecordBtn", "camRepStepDown", "camRepStepUp", "camLibSaveBtn", "camLibCancelBtn", "camLibConnectBtn", "camBtn",
+    "camDistressStartBtn", "camDistressSaveBtn", "camDistressCancelBtn", "camDistressConnectBtn",
+  ];
   for (const id of ids) {
     const el = document.getElementById(id);
     if (el) el.disabled = busy;
@@ -1335,6 +1625,138 @@ function resetCameraLibrary() {
 
 renderCameraLibrary();
 
+/* ===================== DISTRESS SIGNAL (camera) ===================== */
+const CAM_DISTRESS_KEY = "voxa_distress_camera_v1";
+const CAM_DISTRESS_HOLD_MS = 1200; // must hold the distress shape this long before it fires — deliberate, not a slip
+const CAM_DISTRESS_REPS = 3;
+
+function loadCamDistress() {
+  try {
+    const raw = localStorage.getItem(CAM_DISTRESS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+let distressGestureCam = loadCamDistress();
+let camDistressPendingSamples = [];
+let camDistressTrainingCaptureActive = false;
+let camDistressTrainingFrames = [];
+let camDistressHoldStart = null;
+let lastDistressTriggerCam = 0;
+
+// Same Hamming-distance nearest-neighbor match as the regular custom camera library,
+// just checked against a single dedicated gesture instead of a whole word list.
+function classifyDistressCamera(extended) {
+  if (!distressGestureCam) return false;
+  for (const s of distressGestureCam.samples) {
+    let dist = 0;
+    for (let i = 0; i < 5; i++) if (extended[i] !== s[i]) dist++;
+    if (dist <= CAM_CUSTOM_ACCEPT_DIST) return true;
+  }
+  return false;
+}
+
+function renderDistressStatusCam() {
+  const status = document.getElementById("camDistressStatus");
+  const clearBtn = document.getElementById("camDistressClearBtn");
+  if (status) {
+    status.textContent = distressGestureCam
+      ? "Distress gesture set — hold it for about a second to call for help."
+      : "No distress gesture set yet.";
+    status.classList.toggle("set", !!distressGestureCam);
+  }
+  if (clearBtn) clearBtn.disabled = !distressGestureCam;
+}
+
+function openDistressFormCam() {
+  document.getElementById("camDistressForm").style.display = "block";
+  document.getElementById("camDistressOpenBtn").style.display = "none";
+  camDistressPendingSamples = [];
+  setCamDistressTrainStatus("");
+  updateCamDistressRepCounter();
+}
+
+function closeDistressFormCam() {
+  if (cameraTrainingBusy) return;
+  document.getElementById("camDistressForm").style.display = "none";
+  document.getElementById("camDistressOpenBtn").style.display = "block";
+  setCamDistressTrainStatus("");
+}
+
+function updateCamDistressRepCounter() {
+  const n = camDistressPendingSamples.length;
+  document.getElementById("camDistressRepCounter").innerHTML =
+    `<b>${n}</b> rep${n === 1 ? "" : "s"} recorded` +
+    (n < CAM_DISTRESS_REPS ? ` — record at least ${CAM_DISTRESS_REPS}.` : " — good, save now.");
+  document.getElementById("camDistressSaveBtn").disabled = n === 0;
+}
+
+function setCamDistressTrainStatus(msg) {
+  const el = document.getElementById("camDistressTrainStatus");
+  if (el) el.textContent = msg;
+}
+
+async function startCamDistressRecording() {
+  if (!cameraRunning) {
+    alert('Start the camera first — use the "Start Camera" button above.');
+    return;
+  }
+  if (cameraTrainingBusy) return;
+
+  const target = CAM_DISTRESS_REPS;
+  cameraTrainingBusy = true; // suspend normal recognition + the word library's training for the whole sequence
+  const ids = [
+    "camDistressStartBtn", "camDistressSaveBtn", "camDistressCancelBtn", "camDistressConnectBtn",
+    "camLibStartRecordBtn", "camLibSaveBtn", "camLibCancelBtn", "camLibConnectBtn", "camBtn",
+  ];
+  ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = true; });
+
+  for (let i = 1; i <= target; i++) {
+    setCamDistressTrainStatus(`Get ready — rep ${i} of ${target}...`);
+    await sleep(CAM_TRAIN_GETREADY_MS);
+
+    camDistressTrainingFrames = [];
+    camDistressTrainingCaptureActive = true;
+    setCamDistressTrainStatus(`Hold the gesture now — rep ${i} of ${target}!`);
+    await sleep(CAM_TRAIN_WINDOW_MS);
+    camDistressTrainingCaptureActive = false;
+
+    if (camDistressTrainingFrames.length > 0) {
+      camDistressPendingSamples.push(majorityVoteFrames(camDistressTrainingFrames));
+      setCamDistressTrainStatus(`Rep ${i} of ${target} saved.`);
+    } else {
+      setCamDistressTrainStatus(`No single hand detected for rep ${i} — try again.`);
+    }
+    updateCamDistressRepCounter();
+    await sleep(CAM_TRAIN_GAP_MS);
+  }
+
+  cameraTrainingBusy = false;
+  ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = false; });
+  updateCamDistressRepCounter();
+  setCamDistressTrainStatus(`Done — recorded ${target} reps.`);
+}
+
+function saveDistressCam() {
+  if (!camDistressPendingSamples.length) return;
+  distressGestureCam = { samples: camDistressPendingSamples };
+  try { localStorage.setItem(CAM_DISTRESS_KEY, JSON.stringify(distressGestureCam)); } catch (e) {}
+  renderDistressStatusCam();
+  closeDistressFormCam();
+}
+
+function clearDistressCam() {
+  if (!distressGestureCam) return;
+  if (!confirm("Remove your camera distress gesture?")) return;
+  distressGestureCam = null;
+  try { localStorage.removeItem(CAM_DISTRESS_KEY); } catch (e) {}
+  renderDistressStatusCam();
+}
+
+renderDistressStatusCam();
+
 /* ===================== WEARABLE MODE (real Random Forest, real USB) ===================== */
 
 const WEAR_MOTION_THRESHOLD = 2.5;
@@ -1380,9 +1802,26 @@ async function connectWearable() {
     return;
   }
   wearableListening = true;
+  playConnectAnimation();
   updateWearButtons();
   setWearUI("Listening...", true);
   readSerialLoop();
+}
+
+// A quick AirDrop-style confirmation the moment the wearable connects: pulsing rings
+// ping outward while the mic icon rises up and settles into place.
+function playConnectAnimation() {
+  const el = document.getElementById("connectAnim");
+  if (!el) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  el.hidden = false;
+  el.classList.remove("play");
+  void el.offsetWidth; // force reflow so the animation restarts every time
+  el.classList.add("play");
+  setTimeout(() => {
+    el.hidden = true;
+    el.classList.remove("play");
+  }, 1650);
 }
 
 async function disconnectWearable() {
@@ -1406,16 +1845,22 @@ function updateWearButtons() {
   const mainBtn = document.getElementById("wearBtn");
   const libBtn = document.getElementById("libConnectBtn");
   const libStatus = document.getElementById("libConnectStatus");
+  const distressBtn = document.getElementById("wearDistressConnectBtn");
+  const distressStatus = document.getElementById("wearDistressConnectStatus");
   if (wearableListening) {
     mainBtn.textContent = "Disconnect";
     mainBtn.classList.add("stop");
     if (libBtn) { libBtn.textContent = "Connected ✓"; libBtn.disabled = true; }
     if (libStatus) libStatus.textContent = "Wearable connected — ready to record.";
+    if (distressBtn) { distressBtn.textContent = "Connected ✓"; distressBtn.disabled = true; }
+    if (distressStatus) distressStatus.textContent = "Wearable connected — ready to record.";
   } else {
     mainBtn.textContent = "Connect Wearable";
     mainBtn.classList.remove("stop");
     if (libBtn) { libBtn.textContent = "Connect Wearable"; libBtn.disabled = false; }
     if (libStatus) libStatus.textContent = "Not connected — connect to record reps.";
+    if (distressBtn) { distressBtn.textContent = "Connect Wearable"; distressBtn.disabled = false; }
+    if (distressStatus) distressStatus.textContent = "Not connected — connect to record.";
   }
 }
 
@@ -1460,6 +1905,10 @@ function handleWearableLine(line) {
   // it never touches Talk's motion-triggered recognition, and vice versa.
   if (trainingCaptureActive) {
     trainingBuffer.push(values);
+    return;
+  }
+  if (wearDistressTrainingCaptureActive) {
+    wearDistressTrainingFrames.push(values);
     return;
   }
 
@@ -1525,6 +1974,20 @@ function finishWearableCapture() {
   wearableCapturing = false;
   if (trainingBusy) return; // a Talk capture that was already in flight when training started — discard it, don't speak
   const feats = computeFeatures(wearableBuffer);
+
+  // Distress takes priority over everything else — checked first, and never falls
+  // through to also speak a normal word for the same capture.
+  if (classifyDistressWearable(feats)) {
+    const now = Date.now();
+    if (now - lastDistressTriggerWear >= DISTRESS_COOLDOWN_MS) {
+      lastDistressTriggerWear = now;
+      setWordText(document.getElementById("wearWord"), "DISTRESS");
+      triggerDistressCall();
+    } else if (wearableListening) {
+      setWearUI("Listening...", true);
+    }
+    return;
+  }
 
   const custom = classifyCustom(feats);
   let pred, phrase;
@@ -1804,6 +2267,214 @@ function classifyCustom(feats) {
 }
 
 renderLibrary();
+
+/* ===================== DISTRESS SIGNAL (wearable) ===================== */
+const WEAR_DISTRESS_KEY = "voxa_distress_wearable_v1";
+const WEAR_DISTRESS_REPS = 3;
+
+function loadWearDistress() {
+  try {
+    const raw = localStorage.getItem(WEAR_DISTRESS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+let distressGestureWear = loadWearDistress();
+let wearDistressPendingSamples = [];
+let wearDistressTrainingCaptureActive = false;
+let wearDistressTrainingFrames = [];
+let lastDistressTriggerWear = 0;
+
+// Same normalized nearest-neighbor match as the regular wearable word library, just
+// checked against a single dedicated distress gesture instead of the whole word list.
+function classifyDistressWearable(feats) {
+  if (!distressGestureWear || !distressGestureWear.samples.length) return false;
+  const stats = computeNormStats([{ samples: distressGestureWear.samples }]);
+  if (!stats) return false;
+  const nf = normalizeFeats(feats, stats);
+  let bestDist = Infinity;
+  for (const s of distressGestureWear.samples) {
+    const ns = normalizeFeats(s, stats);
+    let dist = 0;
+    for (let i = 0; i < nf.length; i++) dist += (nf[i] - ns[i]) ** 2;
+    dist = Math.sqrt(dist);
+    if (dist < bestDist) bestDist = dist;
+  }
+  return bestDist <= CUSTOM_ACCEPT_DIST;
+}
+
+function renderDistressStatusWear() {
+  const status = document.getElementById("wearDistressStatus");
+  const clearBtn = document.getElementById("wearDistressClearBtn");
+  if (status) {
+    status.textContent = distressGestureWear
+      ? "Distress gesture set — performing it will call for help."
+      : "No distress gesture set yet.";
+    status.classList.toggle("set", !!distressGestureWear);
+  }
+  if (clearBtn) clearBtn.disabled = !distressGestureWear;
+}
+
+function openDistressFormWear() {
+  document.getElementById("wearDistressForm").style.display = "block";
+  document.getElementById("wearDistressOpenBtn").style.display = "none";
+  wearDistressPendingSamples = [];
+  setWearDistressTrainStatus("");
+  updateWearDistressRepCounter();
+}
+
+function closeDistressFormWear() {
+  if (trainingBusy) return;
+  document.getElementById("wearDistressForm").style.display = "none";
+  document.getElementById("wearDistressOpenBtn").style.display = "block";
+  setWearDistressTrainStatus("");
+}
+
+function updateWearDistressRepCounter() {
+  const n = wearDistressPendingSamples.length;
+  document.getElementById("wearDistressRepCounter").innerHTML =
+    `<b>${n}</b> rep${n === 1 ? "" : "s"} recorded` +
+    (n < WEAR_DISTRESS_REPS ? ` — record at least ${WEAR_DISTRESS_REPS}.` : " — good, save now.");
+  document.getElementById("wearDistressSaveBtn").disabled = n === 0;
+}
+
+function setWearDistressTrainStatus(msg) {
+  const el = document.getElementById("wearDistressTrainStatus");
+  if (el) el.textContent = msg;
+}
+
+async function startWearDistressRecording() {
+  if (!wearableListening) {
+    alert("Connect the wearable first.");
+    return;
+  }
+  if (trainingBusy) return;
+
+  const target = WEAR_DISTRESS_REPS;
+  trainingBusy = true; // suspend Talk's normal recognition + the word library's training for the whole sequence
+  wearableCapturing = false;
+  wearableBuffer = [];
+  const ids = [
+    "wearDistressStartBtn", "wearDistressSaveBtn", "wearDistressCancelBtn", "wearDistressConnectBtn",
+    "libStartRecordBtn", "libSaveBtn", "libCancelBtn", "libConnectBtn", "wearBtn",
+  ];
+  ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = true; });
+
+  for (let i = 1; i <= target; i++) {
+    setWearDistressTrainStatus(`Get ready — rep ${i} of ${target}...`);
+    await sleep(TRAIN_GETREADY_MS);
+
+    wearDistressTrainingFrames = [];
+    wearDistressTrainingCaptureActive = true;
+    setWearDistressTrainStatus(`Perform the motion now — rep ${i} of ${target}!`);
+    await sleep(TRAIN_WINDOW_MS);
+    wearDistressTrainingCaptureActive = false;
+
+    if (wearDistressTrainingFrames.length > 0) {
+      wearDistressPendingSamples.push(computeFeatures(wearDistressTrainingFrames));
+      setWearDistressTrainStatus(`Rep ${i} of ${target} saved.`);
+    } else {
+      setWearDistressTrainStatus(`No motion detected for rep ${i} — try again.`);
+    }
+    updateWearDistressRepCounter();
+    await sleep(TRAIN_GAP_MS);
+  }
+
+  trainingBusy = false;
+  ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = false; });
+  updateWearDistressRepCounter();
+  setWearDistressTrainStatus(`Done — recorded ${target} reps.`);
+}
+
+function saveDistressWear() {
+  if (!wearDistressPendingSamples.length) return;
+  distressGestureWear = { samples: wearDistressPendingSamples };
+  try { localStorage.setItem(WEAR_DISTRESS_KEY, JSON.stringify(distressGestureWear)); } catch (e) {}
+  renderDistressStatusWear();
+  closeDistressFormWear();
+}
+
+function clearDistressWear() {
+  if (!distressGestureWear) return;
+  if (!confirm("Remove your wearable distress gesture?")) return;
+  distressGestureWear = null;
+  try { localStorage.removeItem(WEAR_DISTRESS_KEY); } catch (e) {}
+  renderDistressStatusWear();
+}
+
+renderDistressStatusWear();
+
+/* ===================== LOCATION SHARING (wearable only) ===================== */
+function shareMyLocation() {
+  if (!("geolocation" in navigator)) {
+    alert("Location isn't available in this browser.");
+    return;
+  }
+  const btn = document.getElementById("locShareBtn");
+  btn.disabled = true;
+  btn.textContent = "Getting location...";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      btn.disabled = false;
+      btn.textContent = "Share my location";
+      const { latitude, longitude } = pos.coords;
+      const url = new URL(window.location.href.split("?")[0]);
+      url.searchParams.set("loc", `${latitude.toFixed(5)},${longitude.toFixed(5)}`);
+      url.searchParams.set("t", Date.now().toString());
+      const link = url.toString();
+      document.getElementById("locShareLink").value = link;
+      document.getElementById("locShareResult").style.display = "block";
+    },
+    (err) => {
+      btn.disabled = false;
+      btn.textContent = "Share my location";
+      alert("Couldn't get your location: " + err.message);
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+function copyLocLink() {
+  const input = document.getElementById("locShareLink");
+  input.select();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(input.value).catch(() => {});
+  } else {
+    document.execCommand("copy");
+  }
+}
+
+function checkIncomingLocation() {
+  const params = new URLSearchParams(window.location.search);
+  const loc = params.get("loc");
+  if (!loc) return;
+  const parts = loc.split(",").map(Number);
+  const lat = parts[0], lng = parts[1];
+  if (Number.isNaN(lat) || Number.isNaN(lng)) return;
+
+  const box = document.getElementById("locReceived");
+  const text = document.getElementById("locReceivedText");
+  if (!box || !text) return;
+
+  const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+  text.innerHTML = `Someone shared their location with you. <a href="${mapsUrl}" target="_blank" rel="noopener">Open in Maps</a>.`;
+  box.style.display = "flex";
+  showPage("wearable");
+
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const d = haversineKm(pos.coords.latitude, pos.coords.longitude, lat, lng);
+        const distTxt = d < 1 ? `${Math.round(d * 1000)} m` : `${d.toFixed(1)} km`;
+        text.innerHTML += ` That's about <b>${distTxt}</b> from you right now.`;
+      },
+      () => {}
+    );
+  }
+}
+checkIncomingLocation();
 
 /* ---------- PWA install support ---------- */
 if ("serviceWorker" in navigator) {
