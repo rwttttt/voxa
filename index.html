@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOXA</title>
+<style>
+  :root {
+    --bg: #f3efe6;
+    --card: #ffffff;
+    --border: #ddd6c6;
+    --text-main: #111111;
+    --text-dim: #7a7568;
+    --black: #111111;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: "Segoe UI", -apple-system, Helvetica, Arial, sans-serif;
+  }
+
+  /* ---------- navbar ---------- */
+  nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+  }
+  .logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 4px;
+  }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-links button.active {
+    color: var(--black);
+    border-bottom: 2px solid var(--black);
+    font-weight: 600;
+  }
+
+  /* ---------- pages ---------- */
+  .page { display: none; padding: 40px 60px; max-width: 1000px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  h1 { font-size: 34px; margin: 0 0 6px 0; }
+  .subtitle { color: var(--text-dim); font-size: 14px; margin-bottom: 30px; }
+
+  .body-row { display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-start; }
+
+  .video-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px;
+    flex-shrink: 0;
+  }
+  #canvas { display: block; background: black; width: 480px; height: 360px; }
+
+  .side { flex: 1; min-width: 260px; }
+
+  .word {
+    font-size: 46px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    min-height: 56px;
+  }
+
+  button.primary {
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
+  button.primary.stop {
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--black);
+  }
+
+  .gesture-row {
+    display: flex;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .gesture-row .label { font-weight: 700; width: 150px; }
+  .gesture-row .meaning { color: var(--text-dim); }
+
+  .notice {
+    background: var(--card);
+    border: 1px solid var(--black);
+    padding: 14px 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+
+  .facts-row { display: flex; padding: 6px 0; font-size: 13px; }
+  .facts-row .label { font-weight: 700; width: 200px; color: var(--black); }
+  .facts-row .value { color: var(--text-dim); }
+
+  .desc { font-size: 14px; line-height: 1.6; max-width: 650px; margin-bottom: 30px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">V O X A</div>
+  <div class="nav-links">
+    <button id="nav-talk" class="active" onclick="showPage('talk')">Talk</button>
+    <button id="nav-wearable" onclick="showPage('wearable')">Wearable</button>
+    <button id="nav-about" onclick="showPage('about')">About</button>
+  </div>
+</nav>
+
+<!-- ---------- TALK PAGE ---------- -->
+<div id="page-talk" class="page active">
+  <h1>Speak with your hands.</h1>
+  <div class="subtitle">No wearable required — just your camera.</div>
+
+  <div class="body-row">
+    <div class="video-card">
+      <canvas id="canvas" width="480" height="360"></canvas>
+    </div>
+    <div class="side">
+      <div class="word" id="word">—</div>
+      <button class="primary" id="camBtn" onclick="toggleCamera()">Start Camera</button>
+
+      <div class="gesture-row"><div class="label">Fist</div><div class="meaning">→ No</div></div>
+      <div class="gesture-row"><div class="label">Open palm</div><div class="meaning">→ Help</div></div>
+      <div class="gesture-row"><div class="label">Thumbs up</div><div class="meaning">→ Yes</div></div>
+      <div class="gesture-row"><div class="label">Peace sign</div><div class="meaning">→ Special message</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------- WEARABLE PAGE ---------- -->
+<div id="page-wearable" class="page">
+  <h1>Wearable Mode</h1>
+  <div class="subtitle">Gesture-to-speech from the VOXA wrist sensor.</div>
+  <div class="notice">This mode is demonstrated in person using the physical VOXA wristband — it is not available through this website.</div>
+</div>
+
+<!-- ---------- ABOUT PAGE ---------- -->
+<div id="page-about" class="page">
+  <h1>About VOXA</h1>
+  <div class="desc">
+    VOXA is a gesture-to-speech project built for ICT Expo 2026. Its main feature reads hand
+    shapes through a camera and speaks them aloud — no hardware needed, works right in this
+    browser. A second, wearable mode reads wrist motion through an MPU6050 sensor for a
+    hands-free, camera-free alternative, demonstrated in person.
+  </div>
+  <div class="facts-row"><div class="label">Primary mode</div><div class="value">Camera-based hand gestures (MediaPipe, runs in your browser)</div></div>
+  <div class="facts-row"><div class="label">Secondary mode</div><div class="value">Wrist sensor — MPU6050 (accelerometer + gyroscope), demoed in person</div></div>
+  <div class="facts-row"><div class="label">Gestures</div><div class="value">Fist (no), Open palm (help), Thumbs up (yes), Peace sign (special) — one hand each</div></div>
+  <div class="facts-row"><div class="label">Output</div><div class="value">Your browser's built-in text-to-speech</div></div>
+  <div class="facts-row"><div class="label">Built by</div><div class="value">Anikeit Rawat, Grade 12</div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+<script>
+const PHRASES = { yes: "Yes", no: "No", help: "Help me", peace: "Nalan is a good boy" };
+const CAMERA_COOLDOWN = 2000; // ms
+
+let cameraRunning = false;
+let stream = null;
+let history = [];
+let lastGesture = null;
+let lastSpeak = 0;
+
+const video = document.createElement("video");
+video.autoplay = true;
+video.playsInline = true;
+
+const offscreen = document.createElement("canvas");
+offscreen.width = 480;
+offscreen.height = 360;
+const offCtx = offscreen.getContext("2d");
+
+const canvasEl = document.getElementById("canvas");
+const canvasCtx = canvasEl.getContext("2d");
+
+function fingersUp(landmarks, handednessLabel) {
+  const tips = [8, 12, 16, 20];
+  const pips = [6, 10, 14, 18];
+  const extended = [];
+  for (let i = 0; i < 4; i++) {
+    extended.push(landmarks[tips[i]].y < landmarks[pips[i]].y ? 1 : 0);
+  }
+  const thumbTip = landmarks[4], thumbIp = landmarks[3];
+  let thumbExtended;
+  if (handednessLabel === "Right") {
+    thumbExtended = thumbTip.x < thumbIp.x;
+  } else {
+    thumbExtended = thumbTip.x > thumbIp.x;
+  }
+  return [thumbExtended ? 1 : 0, ...extended];
+}
+
+function classifySingleHand(extended) {
+  const [thumb, index, middle, ring, pinky] = extended;
+  const sum = extended.reduce((a, b) => a + b, 0);
+  if (sum === 0) return "no";
+  if (thumb === 1 && index === 0 && middle === 0 && ring === 0 && pinky === 0) return "yes";
+  if (sum === 5) return "help";
+  if (index === 1 && middle === 1 && ring === 0 && pinky === 0) return "peace";
+  return null;
+}
+
+function speak(phrase) {
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(phrase);
+  window.speechSynthesis.speak(utter);
+}
+
+function maybeSpeak() {
+  if (history.length < 10) return;
+  const counts = {};
+  history.forEach(g => { if (g) counts[g] = (counts[g] || 0) + 1; });
+  let best = null, bestCount = 0;
+  for (const g in counts) {
+    if (counts[g] > bestCount) { best = g; bestCount = counts[g]; }
+  }
+  if (!best || bestCount < 8) return;
+  const now = Date.now();
+  if (now - lastSpeak < CAMERA_COOLDOWN) return;
+  lastGesture = best;
+  lastSpeak = now;
+  history = [];
+  document.getElementById("word").textContent = best.toUpperCase();
+  speak(PHRASES[best] || best);
+}
+
+const hands = new Hands({
+  locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+});
+hands.setOptions({
+  maxNumHands: 2,
+  modelComplexity: 1,
+  minDetectionConfidence: 0.6,
+  minTrackingConfidence: 0.6
+});
+hands.onResults(onResults);
+
+function onResults(results) {
+  canvasCtx.save();
+  canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+  canvasCtx.drawImage(results.image, 0, 0, canvasEl.width, canvasEl.height);
+
+  let gesture = null;
+  if (results.multiHandLandmarks && results.multiHandedness) {
+    const shapes = new Set();
+    for (let i = 0; i < results.multiHandLandmarks.length; i++) {
+      const lm = results.multiHandLandmarks[i];
+      drawConnectors(canvasCtx, lm, HAND_CONNECTIONS, { color: "#111111", lineWidth: 2 });
+      drawLandmarks(canvasCtx, lm, { color: "#ef4444", lineWidth: 1, radius: 3 });
+      const label = results.multiHandedness[i].label;
+      const extended = fingersUp(lm, label);
+      const shape = classifySingleHand(extended);
+      if (shape) shapes.add(shape);
+    }
+    if (shapes.size === 1) gesture = [...shapes][0];
+  }
+  canvasCtx.restore();
+
+  history.push(gesture);
+  if (history.length > 15) history.shift();
+  maybeSpeak();
+}
+
+async function frameLoop() {
+  if (cameraRunning) {
+    offCtx.save();
+    offCtx.scale(-1, 1);
+    offCtx.drawImage(video, -480, 0, 480, 360);
+    offCtx.restore();
+    await hands.send({ image: offscreen });
+  }
+  requestAnimationFrame(frameLoop);
+}
+requestAnimationFrame(frameLoop);
+
+async function toggleCamera() {
+  const btn = document.getElementById("camBtn");
+  if (!cameraRunning) {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 360 } });
+      video.srcObject = stream;
+      await video.play();
+    } catch (e) {
+      alert("Could not access camera: " + e.message);
+      return;
+    }
+    cameraRunning = true;
+    history = [];
+    btn.textContent = "Stop Camera";
+    btn.classList.add("stop");
+  } else {
+    cameraRunning = false;
+    if (stream) {
+      stream.getTracks().forEach(t => t.stop());
+      stream = null;
+    }
+    canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    btn.textContent = "Start Camera";
+    btn.classList.remove("stop");
+  }
+}
+
+function showPage(name) {
+  ["talk", "wearable", "about"].forEach(n => {
+    document.getElementById("page-" + n).classList.toggle("active", n === name);
+    document.getElementById("nav-" + n).classList.toggle("active", n === name);
+  });
+  if (name !== "talk" && cameraRunning) toggleCamera();
+}
+</script>
+</body>
+</html>
