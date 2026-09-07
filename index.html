@@ -4,6 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VOXA</title>
+<meta name="description" content="VOXA reads hand gestures through your camera and speaks them aloud, instantly — no wearable, no install, no internet round-trip." />
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#111111" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-title" content="VOXA" />
 <style>
   :root {
     --bg: #f3efe6;
@@ -64,6 +75,26 @@
     border-bottom: 2px solid var(--black);
     font-weight: 600;
   }
+
+  .nav-right { display: flex; align-items: center; gap: 26px; }
+  #install-btn {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  #install-btn:hover { opacity: .85; }
+  #install-btn svg { width: 14px; height: 14px; }
+  #install-btn.show { display: inline-flex; }
 
   /* ---------- pages ---------- */
   .page { display: none; padding: 50px 60px 80px; max-width: 1080px; margin: 0 auto; }
@@ -257,10 +288,16 @@
     </div>
     <div class="logo">V O X A</div>
   </div>
-  <div class="nav-links">
-    <button id="nav-talk" class="active" onclick="showPage('talk')">Talk</button>
-    <button id="nav-wearable" onclick="showPage('wearable')">Wearable</button>
-    <button id="nav-about" onclick="showPage('about')">About</button>
+  <div class="nav-right">
+    <div class="nav-links">
+      <button id="nav-talk" class="active" onclick="showPage('talk')">Talk</button>
+      <button id="nav-wearable" onclick="showPage('wearable')">Wearable</button>
+      <button id="nav-about" onclick="showPage('about')">About</button>
+    </div>
+    <button id="install-btn" onclick="installApp()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      Install App
+    </button>
   </div>
 </nav>
 
@@ -752,6 +789,35 @@ function finishWearableCapture() {
     if (wearableListening) setWearUI("Listening...", true);
   }, WEAR_COOLDOWN_MS);
 }
+
+/* ---------- PWA install support ---------- */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch((e) => console.warn("SW registration failed:", e));
+  });
+}
+
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById("install-btn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  installBtn.classList.add("show");
+});
+
+async function installApp() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  if (outcome === "accepted") installBtn.classList.remove("show");
+  deferredInstallPrompt = null;
+}
+
+window.addEventListener("appinstalled", () => {
+  installBtn.classList.remove("show");
+  deferredInstallPrompt = null;
+});
 </script>
 </body>
 </html>
