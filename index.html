@@ -1250,6 +1250,11 @@ function speak(phrase) {
   const voices = window.speechSynthesis.getVoices();
   const chosen = voices.find((v) => v.name === selectedVoiceName);
   if (chosen) utter.voice = chosen;
+  // A touch slower than the browser default reads as calmer and less clipped/robotic,
+  // without being so slow it feels unnatural. Pitch is deliberately left alone — nudging
+  // it tends to make a voice sound more synthetic, not less, especially on the better
+  // (neural/natural) voices this picks by preference.
+  utter.rate = 0.95;
   currentUtterance = utter;
   utter.onend = () => { currentUtterance = null; };
   utter.onerror = () => { currentUtterance = null; };
@@ -1271,6 +1276,11 @@ const PREFERRED_VOICE_PATTERNS = [
 let voiceOptions = []; // up to 4 curated SpeechSynthesisVoice objects offered to the user
 let selectedVoiceName = localStorage.getItem(VOICE_PREF_KEY) || null;
  
+// Generic tier, checked after the exact-name list above: catches natural-sounding voices
+// on a user's system whose exact name we didn't hardcode (naming varies a lot across OS
+// versions and browsers), so we still prefer them over a plain default voice.
+const NATURAL_NAME_HINT = /natural|neural|enhanced|premium|wavenet/i;
+ 
 function pickVoiceOptions() {
   const all = window.speechSynthesis.getVoices().filter((v) => v.lang && v.lang.toLowerCase().startsWith("en"));
   if (!all.length) return [];
@@ -1279,6 +1289,7 @@ function pickVoiceOptions() {
     const match = all.find((v) => v.name.includes(pat) && !ranked.includes(v));
     if (match) ranked.push(match);
   });
+  all.forEach((v) => { if (NATURAL_NAME_HINT.test(v.name) && !ranked.includes(v)) ranked.push(v); });
   all.forEach((v) => { if (!ranked.includes(v)) ranked.push(v); });
   return ranked.slice(0, 4);
 }
@@ -2697,4 +2708,3 @@ window.addEventListener("appinstalled", () => {
 </script>
 </body>
 </html>
- 
