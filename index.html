@@ -116,6 +116,22 @@
   .subtitle { color: var(--text-dim); font-size: 15px; margin-bottom: 28px; max-width: 560px; line-height: 1.5; }
 
   /* ---------- stat chips ---------- */
+  .hero-row { display: flex; align-items: center; justify-content: space-between; gap: 40px; margin-bottom: 6px; }
+  .hero-text { max-width: 620px; flex-shrink: 1; }
+  .hero-graphic { flex-shrink: 0; width: 220px; height: 220px; opacity: .96; }
+  .hero-graphic svg { width: 100%; height: 100%; }
+  @media (max-width: 880px) { .hero-graphic { display: none; } }
+
+  .section-lead { font-size: 14px; line-height: 1.65; max-width: 680px; color: var(--text-main); margin-bottom: 20px; }
+  .section-note { font-size: 12.5px; color: var(--text-dim); line-height: 1.6; max-width: 680px; margin-top: 22px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 34px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .stat-num { font-size: 32px; font-weight: 800; letter-spacing: -.5px; line-height: 1; margin-bottom: 8px; }
+  .stat-label { font-size: 12.5px; color: var(--text-main); line-height: 1.5; margin-bottom: 10px; }
+  .stat-source { font-size: 11px; color: var(--text-dim); }
+  .stat-source a { color: var(--text-dim); }
+
   .chip-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
   .chip {
     display: flex; align-items: center; gap: 8px;
@@ -403,9 +419,33 @@
 
 <!-- ---------- TALK PAGE ---------- -->
 <div id="page-talk" class="page active">
-  <div class="eyebrow"><span class="dot"></span> ICT Expo 2026</div>
-  <h1>Speak with your hands.</h1>
-  <div class="subtitle">VOXA reads hand gestures through your camera and speaks them aloud, instantly — no wearable, no install, no internet round-trip. Everything runs right here in your browser.</div>
+  <div class="hero-row">
+    <div class="hero-text">
+      <div class="eyebrow"><span class="dot"></span> ICT Expo 2026</div>
+      <h1>Speak with your hands.</h1>
+      <div class="subtitle">VOXA reads hand gestures through your camera and speaks them aloud, instantly — no wearable, no install, no internet round-trip. Everything runs right here in your browser.</div>
+    </div>
+    <div class="hero-graphic" aria-hidden="true">
+      <svg viewBox="0 0 300 300" width="300" height="300">
+        <circle cx="150" cy="150" r="138" fill="none" stroke="#ddd6c6" stroke-width="1.5" stroke-dasharray="2 8"/>
+        <circle cx="150" cy="150" r="106" fill="none" stroke="#ddd6c6" stroke-width="1.5" stroke-dasharray="2 8"/>
+        <rect x="95" y="95" width="110" height="110" rx="26" fill="#111"/>
+        <g transform="translate(150,150) scale(2.3) translate(-12,-12)" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+          <line x1="12" y1="18" x2="12" y2="22"/>
+        </g>
+        <g fill="none" stroke="#111" stroke-width="4" stroke-linecap="round">
+          <line x1="34" y1="235" x2="34" y2="255"/>
+          <line x1="50" y1="215" x2="50" y2="275"/>
+          <line x1="66" y1="240" x2="66" y2="250"/>
+          <line x1="234" y1="240" x2="234" y2="250"/>
+          <line x1="250" y1="215" x2="250" y2="275"/>
+          <line x1="266" y1="235" x2="266" y2="255"/>
+        </g>
+      </svg>
+    </div>
+  </div>
 
   <div class="chip-row">
     <div class="chip">
@@ -506,7 +546,7 @@
         <input type="text" id="libPhraseInput" placeholder="Defaults to the word above" />
       </div>
       <div class="lib-connect-row" id="libConnectRow">
-        <button class="btn-sm" id="libConnectBtn" onclick="toggleWearable()">Connect Wearable</button>
+        <button class="btn-sm" id="libConnectBtn" onclick="connectForTraining()">Connect Wearable</button>
         <span class="lib-connect-status" id="libConnectStatus">Not connected — connect to record reps.</span>
       </div>
 
@@ -565,7 +605,57 @@
     alternative, using the same trained model as the desktop app.
   </div>
 
-  <h2>At a glance</h2>
+  <h2>Who needs something like this</h2>
+  <div class="section-lead">Millions of people find spoken words hard, unreliable, or temporarily unavailable — after a stroke, with a progressive condition, or simply because speech was never their most consistent channel. VOXA is a small ICT Expo project, not a clinical device, but it sits in that same space: giving a gesture a voice when a voice is hard to give.</div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-num">2M+</div>
+      <div class="stat-label">Americans currently living with aphasia — a language disorder that can follow stroke or brain injury.</div>
+      <div class="stat-source">Source: <a href="https://aphasia.org/statistics/" target="_blank" rel="noopener">National Aphasia Association</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">9.4M</div>
+      <div class="stat-label">US adults with a voice problem lasting a week or longer.</div>
+      <div class="stat-source">Source: <a href="https://www.asha.org/about/press-room/quick-facts/" target="_blank" rel="noopener">ASHA</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">1 in 12</div>
+      <div class="stat-label">US children (ages 3–17) who've had a disorder related to voice, speech, language, or swallowing.</div>
+      <div class="stat-source">Source: <a href="https://www.asha.org/about/press-room/quick-facts/" target="_blank" rel="noopener">ASHA</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3M+</div>
+      <div class="stat-label">Americans who stutter, for whom speaking under pressure can be especially difficult.</div>
+      <div class="stat-source">Source: <a href="https://www.asha.org/about/press-room/quick-facts/" target="_blank" rel="noopener">ASHA</a></div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="fact-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <div class="title">Stroke &amp; aphasia survivors</div>
+      <div class="value">About 38% of stroke patients develop aphasia at onset, and roughly a quarter still have it three months on — gesture can stand in while speech is being relearned.</div>
+    </div>
+    <div class="fact-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="title">ALS &amp; progressive motor conditions</div>
+      <div class="value">As conditions like ALS make speech physically harder to produce over time, a small, reliable set of hand or wrist gestures can keep basic communication going longer.</div>
+    </div>
+    <div class="fact-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+      <div class="title">Nonverbal &amp; minimally-verbal individuals</div>
+      <div class="value">Including some autistic people, some with severe apraxia, or after brain injury — for whom gesture is often more consistent than spoken words.</div>
+    </div>
+    <div class="fact-card">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <div class="title">Temporary &amp; situational voice loss</div>
+      <div class="value">Laryngitis, post-surgical recovery, vocal cord strain, or just a loud environment where speaking out loud isn't practical.</div>
+    </div>
+  </div>
+  <div class="section-note">VOXA doesn't replace speech therapy or clinical AAC (augmentative and alternative communication) devices — it's a proof of concept built for ICT Expo 2026, showing that gesture-to-speech can run on everyday hardware, in a browser, with no install.</div>
+
+  <h2 style="margin-top:40px;">At a glance</h2>
   <div class="card-grid">
     <div class="fact-card">
       <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-4v12l-6-4"/></svg></div>
@@ -848,14 +938,22 @@ function updateWearButtons() {
   if (wearableListening) {
     mainBtn.textContent = "Disconnect";
     mainBtn.classList.add("stop");
-    if (libBtn) libBtn.textContent = "Disconnect";
-    if (libStatus) libStatus.textContent = "Wearable connected.";
+    if (libBtn) { libBtn.textContent = "Connected ✓"; libBtn.disabled = true; }
+    if (libStatus) libStatus.textContent = "Wearable connected — ready to record.";
   } else {
     mainBtn.textContent = "Connect Wearable";
     mainBtn.classList.remove("stop");
-    if (libBtn) libBtn.textContent = "Connect Wearable";
+    if (libBtn) { libBtn.textContent = "Connect Wearable"; libBtn.disabled = false; }
     if (libStatus) libStatus.textContent = "Not connected — connect to record reps.";
   }
+}
+
+// The library's own connect button only ever connects — it never doubles as a
+// disconnect toggle, so clicking it while already connected can't silently drop
+// the connection out from under a training session.
+async function connectForTraining() {
+  if (wearableListening) return;
+  await connectWearable();
 }
 
 async function readSerialLoop() {
@@ -891,6 +989,13 @@ function handleWearableLine(line) {
   // it never touches Talk's motion-triggered recognition, and vice versa.
   if (trainingCaptureActive) {
     trainingBuffer.push(values);
+    return;
+  }
+
+  // Talk's auto-recognition is fully suspended for the whole training session (get-ready
+  // pauses and gaps between reps included), not just the 2s capture window itself —
+  // otherwise a motion during "get ready" could trigger Talk to speak mid-recording.
+  if (trainingBusy) {
     return;
   }
 
@@ -947,6 +1052,7 @@ function finishWearableCapture() {
   // (recording reps for a new word) runs on its own explicit timed window and
   // never comes through here.
   wearableCapturing = false;
+  if (trainingBusy) return; // a Talk capture that was already in flight when training started — discard it, don't speak
   const feats = computeFeatures(wearableBuffer);
 
   const custom = classifyCustom(feats);
@@ -1104,6 +1210,10 @@ async function startRecording() {
   if (!recordingMode || trainingBusy) return;
 
   const target = Math.max(1, Math.min(10, parseInt(document.getElementById("repCountInput").value, 10) || 3));
+
+  // Defensive reset: discard any Talk capture that happened to be mid-flight the instant training starts.
+  wearableCapturing = false;
+  wearableBuffer = [];
 
   trainingBusy = true;
   setFormBusy(true);
