@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VOXA</title>
 <meta name="description" content="VOXA reads hand gestures through your camera and speaks them aloud, instantly — no wearable, no install, no internet round-trip." />
- 
+
 <!-- PWA -->
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#111111" />
@@ -79,7 +79,7 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
   button { -webkit-tap-highlight-color: transparent; transition: transform .1s ease; }
   button:active { transform: scale(.97); }
- 
+
   /* ---------- theme toggle ---------- */
   #theme-toggle {
     display: flex; align-items: center; justify-content: center;
@@ -100,7 +100,7 @@
     :root:not([data-theme="light"]) #theme-toggle .sun { display: none; }
     :root:not([data-theme="light"]) #theme-toggle .moon { display: block; }
   }
- 
+
   /* ---------- navbar ---------- */
   nav {
     background: var(--card);
@@ -123,7 +123,7 @@
   }
   .brand-mark svg { width: 18px; height: 18px; }
   .logo { font-size: 19px; font-weight: 700; letter-spacing: 3px; }
- 
+
   .nav-links { display: flex; gap: 34px; }
   .nav-links button {
     background: none;
@@ -142,7 +142,7 @@
     border-bottom: 2px solid var(--accent);
     font-weight: 600;
   }
- 
+
   .nav-right { display: flex; align-items: center; gap: 26px; }
   #install-btn {
     display: none;
@@ -162,7 +162,7 @@
   #install-btn:hover { opacity: .85; }
   #install-btn svg { width: 14px; height: 14px; }
   #install-btn.show { display: inline-flex; }
- 
+
   /* ---------- pages ---------- */
   .page { display: none; padding: 50px 60px 80px; max-width: 1080px; margin: 0 auto; }
   .page.active { display: block; animation: page-fade .35s ease; }
@@ -173,7 +173,7 @@
   @media (prefers-reduced-motion: reduce) {
     .page.active { animation: none; }
   }
- 
+
   .eyebrow {
     display: inline-flex; align-items: center; gap: 6px;
     font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
@@ -185,27 +185,27 @@
     margin-bottom: 18px;
   }
   .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: #8fbf9f; }
- 
+
   h1 { font-size: 38px; margin: 0 0 8px 0; letter-spacing: -0.5px; }
   .subtitle { color: var(--text-dim); font-size: 15px; margin-bottom: 28px; max-width: 560px; line-height: 1.5; }
- 
+
   /* ---------- stat chips ---------- */
   .hero-row { display: flex; align-items: center; justify-content: space-between; gap: 40px; margin-bottom: 6px; }
   .hero-text { max-width: 620px; flex-shrink: 1; }
   .hero-graphic { flex-shrink: 0; width: 220px; height: 220px; opacity: .96; }
   .hero-graphic svg { width: 100%; height: 100%; }
   @media (max-width: 880px) { .hero-graphic { display: none; } }
- 
+
   .section-lead { font-size: 14px; line-height: 1.65; max-width: 680px; color: var(--text-main); margin-bottom: 20px; }
   .section-note { font-size: 12.5px; color: var(--text-dim); line-height: 1.6; max-width: 680px; margin-top: 22px; }
- 
+
   .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 34px; }
   .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
   .stat-num { font-size: 32px; font-weight: 800; letter-spacing: -.5px; line-height: 1; margin-bottom: 8px; }
   .stat-label { font-size: 12.5px; color: var(--text-main); line-height: 1.5; margin-bottom: 10px; }
   .stat-source { font-size: 11px; color: var(--text-dim); }
   .stat-source a { color: var(--text-dim); }
- 
+
   .chip-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
   .chip {
     display: flex; align-items: center; gap: 8px;
@@ -217,7 +217,7 @@
     font-weight: 600;
   }
   .chip svg { width: 16px; height: 16px; flex-shrink: 0; }
- 
+
   /* ---------- small hover-lift detail shared by the card-style tiles ---------- */
   .chip, .gesture-card, .fact-card, .stat-card, .mystery-card {
     transition: transform .15s ease, box-shadow .15s ease;
@@ -226,9 +226,9 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px var(--shadow-hover);
   }
- 
+
   .body-row { display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-start; }
- 
+
   .video-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -237,9 +237,9 @@
     flex-shrink: 0;
   }
   #canvas { display: block; background: black; width: 480px; height: 360px; border-radius: 8px; }
- 
+
   .side { flex: 1; min-width: 280px; }
- 
+
   .word {
     font-size: 46px;
     font-weight: 700;
@@ -255,7 +255,7 @@
   @media (prefers-reduced-motion: reduce) {
     .word.pop, .wear-word.pop { animation: none; }
   }
- 
+
   button.primary {
     background: var(--accent);
     color: var(--accent-text);
@@ -275,7 +275,7 @@
     color: var(--accent);
     border: 1px solid var(--accent);
   }
- 
+
   /* ---------- gesture cards ---------- */
   .gesture-grid {
     display: grid;
@@ -301,7 +301,7 @@
   .gesture-card .icon svg { width: 18px; height: 18px; }
   .gesture-card .label { font-weight: 700; font-size: 13px; }
   .gesture-card .meaning { color: var(--text-dim); font-size: 12px; }
- 
+
   .mystery-card {
     background: var(--card);
     border: 1px dashed var(--border);
@@ -321,7 +321,7 @@
   .mystery-icon svg { width: 18px; height: 18px; }
   .mystery-title { font-weight: 700; font-size: 13.5px; margin-bottom: 5px; }
   .mystery-sub { color: var(--text-dim); font-size: 12.5px; line-height: 1.55; }
- 
+
   .voice-card { margin-top: 18px; }
   .voice-card-title { font-size: 11.5px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 9px; }
   .voice-pills { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -340,7 +340,7 @@
   .voice-pill:hover { border-color: var(--accent); }
   .voice-pill.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
   .voice-loading { font-size: 12.5px; color: var(--text-dim); }
- 
+
   /* ---------- feature / fact cards ---------- */
   .card-grid {
     display: grid;
@@ -364,30 +364,84 @@
   .fact-card .icon svg { width: 18px; height: 18px; stroke: var(--accent-text); }
   .fact-card .title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
   .fact-card .value { color: var(--text-dim); font-size: 12.5px; line-height: 1.5; }
- 
+
   /* ---------- circuit / system diagram (wearable) ---------- */
-  .circuit-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 26px 28px; margin-bottom: 26px; }
+  /* The tray sits at the page's own tone (a shallow recess) so the individual steps —
+     styled as raised, floating panels — visibly lift out of it. */
+  .circuit-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 30px 28px 34px; margin-bottom: 26px; }
   .circuit-card h2 { margin-bottom: 6px; }
-  .circuit-sub { color: var(--text-dim); font-size: 12.5px; line-height: 1.55; margin-bottom: 22px; max-width: 640px; }
-  .circuit-row { display: flex; align-items: flex-start; gap: 6px; flex-wrap: wrap; }
-  .circuit-step { flex: 1; min-width: 130px; max-width: 170px; }
+  .circuit-sub { color: var(--text-dim); font-size: 12.5px; line-height: 1.55; margin-bottom: 28px; max-width: 640px; }
+  .circuit-row { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+  .circuit-step {
+    flex: 1; min-width: 130px; max-width: 175px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px 20px;
+    box-shadow: 0 8px 18px var(--shadow-hover);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    cursor: default;
+  }
+  .circuit-step:hover {
+    transform: translateY(-7px);
+    border-color: var(--accent);
+    box-shadow: 0 18px 30px var(--shadow-hover);
+  }
   .circuit-step .icon {
     width: 34px; height: 34px;
     border-radius: 9px;
     background: var(--accent);
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 10px;
+    animation: icon-float 3.6s ease-in-out infinite;
+  }
+  .circuit-row > .circuit-step:nth-child(1) .icon { animation-delay: 0s; }
+  .circuit-row > .circuit-step:nth-child(3) .icon { animation-delay: .9s; }
+  .circuit-row > .circuit-step:nth-child(5) .icon { animation-delay: 1.8s; }
+  .circuit-row > .circuit-step:nth-child(7) .icon { animation-delay: 2.7s; }
+  @keyframes icon-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
   }
   .circuit-step .icon svg { width: 17px; height: 17px; stroke: var(--accent-text); }
   .circuit-step .title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
   .circuit-step .desc-sm { color: var(--text-dim); font-size: 11.5px; line-height: 1.45; }
-  .circuit-arrow { flex-shrink: 0; display: flex; align-items: center; height: 34px; margin-top: 0; color: var(--text-dim); }
-  @media (max-width: 700px) {
-    .circuit-arrow { transform: rotate(90deg); margin: 4px auto; }
-    .circuit-row { flex-direction: column; align-items: stretch; }
-    .circuit-step { max-width: none; }
+  .circuit-arrow {
+    flex-shrink: 0; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 34px;
+    color: var(--border);
   }
- 
+  .circuit-arrow svg { position: relative; z-index: 1; }
+  .circuit-arrow .flow-dot {
+    position: absolute;
+    left: 2px; top: 50%;
+    width: 6px; height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: flow-travel 2.4s ease-in-out infinite;
+  }
+  .circuit-row > .circuit-arrow:nth-child(2) .flow-dot { animation-delay: 0s; }
+  .circuit-row > .circuit-arrow:nth-child(4) .flow-dot { animation-delay: .8s; }
+  .circuit-row > .circuit-arrow:nth-child(6) .flow-dot { animation-delay: 1.6s; }
+  @keyframes flow-travel {
+    0%   { left: 2px; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { left: calc(100% - 8px); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .circuit-step .icon, .circuit-arrow .flow-dot { animation: none; }
+  }
+  @media (max-width: 700px) {
+    .circuit-arrow { transform: rotate(90deg); margin: 6px auto; }
+    .circuit-row { flex-direction: column; align-items: stretch; gap: 8px; }
+    .circuit-step { max-width: none; }
+    .circuit-step:hover { transform: translateY(-3px); }
+  }
+
   /* ---------- how it works ---------- */
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 40px; }
   .step { position: relative; padding-left: 44px; }
@@ -402,9 +456,9 @@
   }
   .step .title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
   .step .desc-sm { color: var(--text-dim); font-size: 12.5px; line-height: 1.5; }
- 
+
   h2 { font-size: 20px; margin: 0 0 16px 0; }
- 
+
   .notice {
     background: var(--card);
     border: 1px solid var(--border);
@@ -419,7 +473,7 @@
   }
   .notice svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
   .notice b { color: var(--text-main); }
- 
+
   .wear-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -430,7 +484,7 @@
     position: relative;
     overflow: hidden;
   }
- 
+
   /* ---------- connect confirmation animation (AirDrop-style mic rise + ping) ---------- */
   .connect-anim {
     position: absolute;
@@ -502,9 +556,9 @@
   }
   .wear-status { font-size: 13px; color: var(--text-dim); }
   .wear-word { font-size: 40px; font-weight: 700; min-height: 50px; margin: 6px 0 22px; }
- 
+
   .desc { font-size: 14px; line-height: 1.65; max-width: 640px; margin-bottom: 34px; color: var(--text-main); }
- 
+
   /* ---------- gesture library (train-your-own-words) ---------- */
   .lib-card {
     background: var(--card);
@@ -516,7 +570,7 @@
   }
   .lib-card h2 { margin: 0 0 4px; }
   .lib-sub { color: var(--text-dim); font-size: 13px; line-height: 1.55; margin-bottom: 20px; }
- 
+
   .lib-list { margin-bottom: 16px; }
   .lib-empty { color: var(--text-dim); font-size: 13px; padding: 4px 0 18px; }
   .lib-item {
@@ -528,7 +582,7 @@
   .lib-item .phrase { color: var(--text-dim); font-size: 12px; margin-top: 2px; }
   .lib-item .count { color: var(--text-dim); font-size: 12px; margin-top: 2px; }
   .lib-item .actions { display: flex; gap: 8px; flex-shrink: 0; }
- 
+
   .btn-sm {
     background: var(--card);
     border: 1px solid var(--border);
@@ -545,7 +599,7 @@
   .btn-sm.danger:hover { border-color: var(--danger); }
   .btn-sm:disabled { opacity: .45; cursor: default; }
   .btn-sm:disabled:hover { border-color: var(--border); }
- 
+
   .lib-add-toggle {
     background: none;
     border: 1px dashed var(--border);
@@ -560,7 +614,7 @@
     text-align: center;
   }
   .lib-add-toggle:hover { border-color: var(--accent); }
- 
+
   .lib-form { border-top: 1px solid var(--border); padding-top: 18px; margin-top: 18px; }
   .lib-form-row { margin-bottom: 12px; }
   .lib-form-row label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
@@ -576,10 +630,10 @@
     color: var(--text-main);
   }
   .lib-form-row input[type=text]:focus { outline: none; border-color: var(--accent); }
- 
+
   .lib-connect-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
   .lib-connect-status { font-size: 12px; color: var(--text-dim); }
- 
+
   .lib-record-row { display: flex; align-items: center; gap: 12px; margin: 16px 0 10px; flex-wrap: wrap; }
   .rep-count-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-dim); }
   .stepper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
@@ -595,16 +649,16 @@
   }
   .stepper input[type=number]::-webkit-inner-spin-button,
   .stepper input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
- 
+
   .train-status { font-size: 12.5px; color: var(--text-main); min-height: 18px; font-weight: 600; margin-bottom: 4px; }
- 
+
   .rep-counter { font-size: 13px; color: var(--text-dim); }
   .rep-counter b { color: var(--text-main); }
   .lib-form-actions { display: flex; gap: 10px; }
- 
+
   .lib-reset-row { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 6px; display: flex; align-items: center; justify-content: space-between; }
   .lib-reset-row .txt { font-size: 12px; color: var(--text-dim); max-width: 340px; }
- 
+
   footer.page-footer {
     border-top: 1px solid var(--border);
     color: var(--text-dim);
@@ -612,7 +666,7 @@
     padding: 18px 60px 26px;
   }
   .page-footer-inner { max-width: 1080px; margin: 0 auto; }
- 
+
   /* ---------- distress signal ---------- */
   .distress-banner {
     position: fixed;
@@ -631,14 +685,14 @@
   }
   .distress-banner.show { transform: translateY(0); }
   .distress-banner svg { width: 22px; height: 22px; flex-shrink: 0; }
- 
+
   .distress-card { border-color: var(--danger-border); }
   .distress-card h2 { display: flex; align-items: center; gap: 8px; }
   .distress-status { font-size: 13px; color: var(--text-main); font-weight: 600; margin: 14px 0; }
   .distress-status.set { color: var(--danger); }
   .distress-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   .distress-disclaimer { font-size: 11.5px; color: var(--text-dim); margin-top: 14px; line-height: 1.5; }
- 
+
   .loc-link-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .loc-link-row input {
     flex: 1;
@@ -653,7 +707,7 @@
 </style>
 </head>
 <body>
- 
+
 <nav>
   <div class="brand">
     <div class="brand-mark">
@@ -681,7 +735,7 @@
     </button>
   </div>
 </nav>
- 
+
 <!-- ---------- TALK PAGE ---------- -->
 <div id="page-talk" class="page">
   <div class="hero-row">
@@ -711,7 +765,7 @@
       </svg>
     </div>
   </div>
- 
+
   <div class="chip-row">
     <div class="chip">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-4v12l-6-4"/></svg>
@@ -730,7 +784,7 @@
       No wearable needed
     </div>
   </div>
- 
+
   <div class="body-row">
     <div class="video-card">
       <canvas id="canvas" width="480" height="360"></canvas>
@@ -738,7 +792,7 @@
     <div class="side">
       <div class="word" id="word">—</div>
       <button class="primary" id="camBtn" onclick="toggleCamera()">Start Camera</button>
- 
+
       <div class="mystery-card">
         <div class="mystery-icon"><svg viewBox="0 0 24 24"><circle cx="2" cy="7" r="2.4" fill="var(--text-main)"/><circle cx="7" cy="16" r="2" fill="none" stroke="var(--text-main)" stroke-width="1.6"/><circle cx="12" cy="7" r="2.4" fill="var(--text-main)"/><circle cx="17" cy="16" r="2" fill="none" stroke="var(--text-main)" stroke-width="1.6"/><circle cx="22" cy="7" r="2.4" fill="var(--text-main)"/><rect x="1" y="19.5" width="22" height="3" rx="1.5" fill="none" stroke="var(--text-main)" stroke-width="1.3"/></svg></div>
         <div>
@@ -746,22 +800,22 @@
           <div class="mystery-sub">Each uses a different combination of raised/curled fingers, chosen so no two are just one finger apart — even under stage lighting. Ask us to show you live.</div>
         </div>
       </div>
- 
+
       <div class="voice-card">
         <div class="voice-card-title">Voice</div>
         <div class="voice-pills" id="voicePills"><span class="voice-loading">Loading voices…</span></div>
       </div>
     </div>
   </div>
- 
+
   <div class="lib-card">
     <h2>Teach VOXA your own words</h2>
     <div class="lib-sub">Every browser keeps its own private set of words — nothing is shared or uploaded. Start the camera above, hold one hand steady in frame, then record a few reps of a shape and give it a word. The 5 built-in gestures always keep working alongside whatever you add here.</div>
- 
+
     <div class="lib-list" id="camLibList"></div>
- 
+
     <button class="lib-add-toggle" id="camLibAddToggle" onclick="openAddCamWordForm()">+ Add a new word</button>
- 
+
     <div class="lib-form" id="camLibForm" style="display:none;">
       <div class="lib-form-row">
         <label>Word</label>
@@ -775,7 +829,7 @@
         <button class="btn-sm" id="camLibConnectBtn" onclick="startCameraForTraining()">Start Camera</button>
         <span class="lib-connect-status" id="camLibConnectStatus">Camera not running — start it to record reps.</span>
       </div>
- 
+
       <div class="lib-record-row">
         <span class="rep-count-label">Reps to record</span>
         <div class="stepper">
@@ -787,30 +841,30 @@
       </div>
       <div class="train-status" id="camTrainStatus"></div>
       <div class="rep-counter" id="camRepCounter">0 reps recorded — record at least 3 for reliable recognition.</div>
- 
+
       <div class="lib-form-actions">
         <button class="primary" id="camLibSaveBtn" onclick="saveCamWord()" disabled>Save word</button>
         <button class="btn-sm" id="camLibCancelBtn" onclick="closeAddCamWordForm()">Cancel</button>
       </div>
     </div>
- 
+
     <div class="lib-reset-row">
       <div class="txt">Wipes every custom word you've added on this browser. The 5 built-in gestures are unaffected.</div>
       <button class="btn-sm danger" onclick="resetCameraLibrary()">Start a fresh library</button>
     </div>
   </div>
- 
+
   <div class="lib-card distress-card">
     <h2>
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       Distress signal
     </h2>
     <div class="lib-sub">Record one gesture that means "I need help." Hold it in front of the camera for about a second and VOXA will speak an alert and open your phone's dialer with <b>+971 50 956 9757</b> ready to call.</div>
- 
+
     <div class="distress-status" id="camDistressStatus">No distress gesture set yet.</div>
- 
+
     <button class="lib-add-toggle" id="camDistressOpenBtn" onclick="openDistressFormCam()">+ Record distress gesture</button>
- 
+
     <div class="lib-form" id="camDistressForm" style="display:none;">
       <div class="lib-connect-row" id="camDistressConnectRow">
         <button class="btn-sm" id="camDistressConnectBtn" onclick="startCameraForTraining()">Start Camera</button>
@@ -826,7 +880,7 @@
         <button class="btn-sm" id="camDistressCancelBtn" onclick="closeDistressFormCam()">Cancel</button>
       </div>
     </div>
- 
+
     <div class="distress-actions">
       <button class="btn-sm danger" id="camDistressClearBtn" onclick="clearDistressCam()" disabled>Clear distress gesture</button>
       <button class="btn-sm" onclick="callDistressNow()">Test: open dialer now</button>
@@ -834,7 +888,7 @@
     <div class="distress-disclaimer">This opens your phone's own dialer, pre-filled — it can't place the call silently by itself; someone still needs to tap Call. Works best on a phone browser (a desktop needs a calling app like Skype set as its default for tel: links to do anything).</div>
   </div>
 </div>
- 
+
 <!-- ---------- WEARABLE PAGE ---------- -->
 <div id="page-wearable" class="page">
   <div class="hero-row">
@@ -864,12 +918,12 @@
       </svg>
     </div>
   </div>
- 
+
   <div class="notice">
     <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     <div>This connects to the real VOXA wristband over USB using your browser's Web Serial feature (Chrome or Edge, desktop only). Without the physical wristband plugged in, there's nothing to select — <b>this is demonstrated in person</b> using the actual hardware.</div>
   </div>
- 
+
   <div class="wear-card">
     <div class="connect-anim" id="connectAnim" hidden>
       <div class="connect-anim-ring ring1"></div>
@@ -891,15 +945,15 @@
     <div class="wear-word" id="wearWord">—</div>
     <button class="primary" id="wearBtn" onclick="toggleWearable()">Connect Wearable</button>
   </div>
- 
+
   <div class="lib-card">
     <h2>Teach VOXA your own words</h2>
     <div class="lib-sub">Every browser keeps its own private set of words — nothing is shared or uploaded. Connect the wearable above, then record a few reps of a motion and give it a word. <b>Yes / No / Help</b> above always keep working alongside whatever you add here.</div>
- 
+
     <div class="lib-list" id="libList"></div>
- 
+
     <button class="lib-add-toggle" id="libAddToggle" onclick="openAddWordForm()">+ Add a new word</button>
- 
+
     <div class="lib-form" id="libForm" style="display:none;">
       <div class="lib-form-row">
         <label>Word</label>
@@ -913,7 +967,7 @@
         <button class="btn-sm" id="libConnectBtn" onclick="connectForTraining()">Connect Wearable</button>
         <span class="lib-connect-status" id="libConnectStatus">Not connected — connect to record reps.</span>
       </div>
- 
+
       <div class="lib-record-row">
         <span class="rep-count-label">Reps to record</span>
         <div class="stepper">
@@ -925,30 +979,30 @@
       </div>
       <div class="train-status" id="trainStatus"></div>
       <div class="rep-counter" id="repCounter">0 reps recorded — record at least 3 for reliable recognition.</div>
- 
+
       <div class="lib-form-actions">
         <button class="primary" id="libSaveBtn" onclick="saveWord()" disabled>Save word</button>
         <button class="btn-sm" id="libCancelBtn" onclick="closeAddWordForm()">Cancel</button>
       </div>
     </div>
- 
+
     <div class="lib-reset-row">
       <div class="txt">Wipes every custom word you've added on this browser. Yes/No/Help are unaffected.</div>
       <button class="btn-sm danger" onclick="resetLibrary()">Start a fresh library</button>
     </div>
   </div>
- 
+
   <div class="lib-card distress-card">
     <h2>
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       Distress signal
     </h2>
     <div class="lib-sub">Record one wrist motion that means "I need help." Perform it and VOXA will speak an alert and open your phone's dialer with <b>+971 50 956 9757</b> ready to call.</div>
- 
+
     <div class="distress-status" id="wearDistressStatus">No distress gesture set yet.</div>
- 
+
     <button class="lib-add-toggle" id="wearDistressOpenBtn" onclick="openDistressFormWear()">+ Record distress gesture</button>
- 
+
     <div class="lib-form" id="wearDistressForm" style="display:none;">
       <div class="lib-connect-row" id="wearDistressConnectRow">
         <button class="btn-sm" id="wearDistressConnectBtn" onclick="connectForTraining()">Connect Wearable</button>
@@ -964,14 +1018,14 @@
         <button class="btn-sm" id="wearDistressCancelBtn" onclick="closeDistressFormWear()">Cancel</button>
       </div>
     </div>
- 
+
     <div class="distress-actions">
       <button class="btn-sm danger" id="wearDistressClearBtn" onclick="clearDistressWear()" disabled>Clear distress gesture</button>
       <button class="btn-sm" onclick="callDistressNow()">Test: open dialer now</button>
     </div>
     <div class="distress-disclaimer">This opens your phone's own dialer, pre-filled — it can't place the call silently by itself; someone still needs to tap Call.</div>
   </div>
- 
+
   <div class="lib-card" id="locShareCard">
     <h2>Share your location</h2>
     <div class="lib-sub">Send another VOXA wearable user a one-tap link to where you are right now — handy for meeting up when a call or text isn't easy. This is a snapshot, not a live tracker: share a fresh link whenever you move.</div>
@@ -988,7 +1042,7 @@
       <div id="locReceivedText"></div>
     </div>
   </div>
- 
+
   <div class="circuit-card">
     <h2>Inside the wearable</h2>
     <div class="circuit-sub">A system diagram of the wristband's data path — not a photo, but exactly what's on the wrist and what happens once you plug it in. See the actual hardware live at our expo table.</div>
@@ -998,19 +1052,19 @@
         <div class="title">MPU6050</div>
         <div class="desc-sm">Accelerometer + gyroscope, strapped to the wrist.</div>
       </div>
-      <div class="circuit-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      <div class="circuit-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="flow-dot"></span></div>
       <div class="circuit-step">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="14" rx="2"/><path d="M9 3h6v4H9z"/></svg></div>
         <div class="title">Arduino Nano</div>
         <div class="desc-sm">Reads the sensor and streams motion data over serial.</div>
       </div>
-      <div class="circuit-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      <div class="circuit-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="flow-dot"></span></div>
       <div class="circuit-step">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
         <div class="title">USB / Web Serial</div>
         <div class="desc-sm">Your browser reads the stream live — Chrome or Edge, no drivers.</div>
       </div>
-      <div class="circuit-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      <div class="circuit-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="flow-dot"></span></div>
       <div class="circuit-step">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19 5a10 10 0 0 1 0 14"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></div>
         <div class="title">Model + speech</div>
@@ -1018,7 +1072,7 @@
       </div>
     </div>
   </div>
- 
+
   <div class="card-grid">
     <div class="fact-card">
       <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
@@ -1037,7 +1091,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ---------- ABOUT PAGE ---------- -->
 <div id="page-about" class="page active">
   <div class="hero-row">
@@ -1081,10 +1135,10 @@
       </svg>
     </div>
   </div>
- 
+
   <h2>Who needs something like this</h2>
   <div class="section-lead">Millions of people find spoken words hard, unreliable, or temporarily unavailable — after a stroke, with a progressive condition, or simply because speech was never their most consistent channel. VOXA is a small ICT Expo project, not a clinical device, but it sits in that same space: giving a gesture a voice when a voice is hard to give.</div>
- 
+
   <div class="stat-grid">
     <div class="stat-card">
       <div class="stat-num">101M+</div>
@@ -1107,7 +1161,7 @@
       <div class="stat-source">Source: <a href="https://www.stutteringhelp.org/faq" target="_blank" rel="noopener">Stuttering Foundation</a></div>
     </div>
   </div>
- 
+
   <div class="card-grid">
     <div class="fact-card">
       <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
@@ -1131,7 +1185,7 @@
     </div>
   </div>
   <div class="section-note">VOXA doesn't replace speech therapy or clinical AAC (augmentative and alternative communication) devices — it's a proof of concept built for ICT Expo 2026, showing that gesture-to-speech can run on everyday hardware, in a browser, with no install.</div>
- 
+
   <h2 style="margin-top:40px;">At a glance</h2>
   <div class="card-grid">
     <div class="fact-card">
@@ -1155,7 +1209,7 @@
       <div class="value">Built-in browser text-to-speech — no server calls, works fully offline once loaded.</div>
     </div>
   </div>
- 
+
   <h2>How it works</h2>
   <div class="steps">
     <div class="step">
@@ -1174,38 +1228,38 @@
       <div class="desc-sm">Once a gesture is recognized, the matching phrase is spoken aloud instantly.</div>
     </div>
   </div>
- 
+
 </div>
- 
+
 <div class="distress-banner" id="distressBanner">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
   <div id="distressBannerText">Distress signal detected — opening your phone's dialer for <b>+971 50 956 9757</b>. Tap Call to connect.</div>
 </div>
- 
+
 <footer class="page-footer">
   <div class="page-footer-inner">Built by Anikeit Rawat, Grade 12 · Bhavans Private International English School · ICT Expo 2026</div>
 </footer>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
- 
+
 <script>
 /* ---------- theme (light / dark) ---------- */
 const THEME_KEY = "voxa_theme";
 const THEME_COLOR = { light: "#f3efe6", dark: "#131210" };
- 
+
 function effectiveTheme() {
   const stored = localStorage.getItem(THEME_KEY);
   if (stored === "light" || stored === "dark") return stored;
   return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
- 
+
 function updateMetaThemeColor(theme) {
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", THEME_COLOR[theme] || THEME_COLOR.light);
 }
- 
+
 function applyTheme() {
   const stored = localStorage.getItem(THEME_KEY);
   if (stored === "light" || stored === "dark") {
@@ -1215,20 +1269,20 @@ function applyTheme() {
   }
   updateMetaThemeColor(effectiveTheme());
 }
- 
+
 function toggleTheme() {
   const next = effectiveTheme() === "dark" ? "light" : "dark";
   localStorage.setItem(THEME_KEY, next);
   applyTheme();
 }
- 
+
 applyTheme();
 if (window.matchMedia) {
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
     if (!localStorage.getItem(THEME_KEY)) applyTheme();
   });
 }
- 
+
 const PHRASES = {
   hello: "Hello! Welcome to our ICT Expo project.",
   yes: "Yes",
@@ -1237,13 +1291,13 @@ const PHRASES = {
   nice: "I'm VOXA — I turn hand gestures into speech, live, right in your browser.",
 };
 const CAMERA_COOLDOWN = 2000; // ms
- 
+
 // Kept in outer scope on purpose: Chrome can garbage-collect a SpeechSynthesisUtterance
 // that nothing still references, which cuts the audio off after just a word or two even
 // though speech was still in progress. Holding a strong reference here until the utterance
 // actually finishes (or errors) prevents that.
 let currentUtterance = null;
- 
+
 function speak(phrase) {
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(phrase);
@@ -1260,7 +1314,7 @@ function speak(phrase) {
   utter.onerror = () => { currentUtterance = null; };
   window.speechSynthesis.speak(utter);
 }
- 
+
 /* ===================== VOICE SELECTION ===================== */
 const VOICE_PREF_KEY = "voxa_voice_name";
 // Ordered by how natural they tend to sound across common platforms — first matches win.
@@ -1272,15 +1326,15 @@ const PREFERRED_VOICE_PATTERNS = [
   "Google UK English Female", "Google UK English Male",
   "Karen", "Daniel", "Moira", "Alex", "Victoria", "Ava", "Zira", "David",
 ];
- 
+
 let voiceOptions = []; // up to 4 curated SpeechSynthesisVoice objects offered to the user
 let selectedVoiceName = localStorage.getItem(VOICE_PREF_KEY) || null;
- 
+
 // Generic tier, checked after the exact-name list above: catches natural-sounding voices
 // on a user's system whose exact name we didn't hardcode (naming varies a lot across OS
 // versions and browsers), so we still prefer them over a plain default voice.
 const NATURAL_NAME_HINT = /natural|neural|enhanced|premium|wavenet/i;
- 
+
 function pickVoiceOptions() {
   const all = window.speechSynthesis.getVoices().filter((v) => v.lang && v.lang.toLowerCase().startsWith("en"));
   if (!all.length) return [];
@@ -1293,7 +1347,7 @@ function pickVoiceOptions() {
   all.forEach((v) => { if (!ranked.includes(v)) ranked.push(v); });
   return ranked.slice(0, 4);
 }
- 
+
 function renderVoicePills() {
   const wrap = document.getElementById("voicePills");
   if (!wrap) return;
@@ -1310,21 +1364,21 @@ function renderVoicePills() {
     return `<button type="button" class="voice-pill${isActive ? " active" : ""}" onclick="chooseVoice('${escapeHtml(v.name).replace(/'/g, "\\'")}')">${escapeHtml(shortName)}</button>`;
   }).join("");
 }
- 
+
 function chooseVoice(name) {
   selectedVoiceName = name;
   try { localStorage.setItem(VOICE_PREF_KEY, name); } catch (e) {}
   renderVoicePills();
   speak("Hi, I'm VOXA.");
 }
- 
+
 function loadVoices() {
   voiceOptions = pickVoiceOptions();
   renderVoicePills();
 }
 window.speechSynthesis.onvoiceschanged = loadVoices;
 loadVoices();
- 
+
 /* ===================== DISTRESS SIGNAL (shared: camera + wearable) ===================== */
 // Honest limitation, by design: no website can silently dial a real phone number —
 // browsers only let a "tel:" link hand off to the device's own dialer, and a person
@@ -1333,9 +1387,9 @@ loadVoices();
 const DISTRESS_PHONE = "+971509569757";
 const DISTRESS_PHONE_DISPLAY = "+971 50 956 9757";
 const DISTRESS_COOLDOWN_MS = 15000; // don't spam-trigger while the gesture is held/repeated
- 
+
 let distressBannerTimeout = null;
- 
+
 function showDistressBanner() {
   const banner = document.getElementById("distressBanner");
   if (!banner) return;
@@ -1343,18 +1397,18 @@ function showDistressBanner() {
   clearTimeout(distressBannerTimeout);
   distressBannerTimeout = setTimeout(() => banner.classList.remove("show"), 7000);
 }
- 
+
 function callDistressNow() {
   window.location.href = "tel:" + DISTRESS_PHONE;
 }
- 
+
 function triggerDistressCall() {
   showDistressBanner();
   speak("Distress signal detected. Calling for help now.");
   // Give the spoken alert a beat to actually start before handing off to the dialer.
   setTimeout(callDistressNow, 1200);
 }
- 
+
 function haversineKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const toRad = (d) => (d * Math.PI) / 180;
@@ -1363,7 +1417,7 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
- 
+
 // Small UX detail: retrigger a quick pop animation whenever a recognized word changes,
 // so successful recognition feels responsive rather than just silently swapping text.
 function setWordText(el, text) {
@@ -1373,7 +1427,7 @@ function setWordText(el, text) {
   void el.offsetWidth; // force reflow so the animation restarts even for the same word
   el.classList.add("pop");
 }
- 
+
 function showPage(name) {
   ["talk", "wearable", "about"].forEach(n => {
     document.getElementById("page-" + n).classList.toggle("active", n === name);
@@ -1381,27 +1435,27 @@ function showPage(name) {
   });
   if (name !== "talk" && cameraRunning) toggleCamera();
 }
- 
+
 /* ===================== CAMERA MODE (Talk) ===================== */
- 
+
 let cameraRunning = false;
 let stream = null;
 let history = [];
 let lastGesture = null;
 let lastSpeak = 0;
- 
+
 const video = document.createElement("video");
 video.autoplay = true;
 video.playsInline = true;
- 
+
 const offscreen = document.createElement("canvas");
 offscreen.width = 480;
 offscreen.height = 360;
 const offCtx = offscreen.getContext("2d");
- 
+
 const canvasEl = document.getElementById("canvas");
 const canvasCtx = canvasEl.getContext("2d");
- 
+
 function fingersUp(landmarks, handednessLabel) {
   const tips = [8, 12, 16, 20];
   const pips = [6, 10, 14, 18];
@@ -1418,7 +1472,7 @@ function fingersUp(landmarks, handednessLabel) {
   }
   return [thumbExtended ? 1 : 0, ...extended];
 }
- 
+
 // Five built-in shapes, deliberately chosen so no two are a one-finger slip from each
 // other (minimum Hamming distance 2 across all pairs) — a closed fist is intentionally
 // NOT one of them, since a fully-curled hand is the least reliable shape to detect and
@@ -1432,7 +1486,7 @@ function classifySingleHand(extended) {
   if (thumb === 0 && index === 1 && middle === 1 && ring === 1 && pinky === 0) return "nice";  // index+middle+ring
   return null;
 }
- 
+
 function maybeSpeak() {
   if (history.length < 10) return;
   const counts = {}; // label -> { count, phrase }
@@ -1458,7 +1512,7 @@ function maybeSpeak() {
   setWordText(document.getElementById("word"), bestLabel.toUpperCase());
   speak(bestPhrase);
 }
- 
+
 const hands = new Hands({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
 });
@@ -1469,12 +1523,12 @@ hands.setOptions({
   minTrackingConfidence: 0.6
 });
 hands.onResults(onResults);
- 
+
 function onResults(results) {
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
   canvasCtx.drawImage(results.image, 0, 0, canvasEl.width, canvasEl.height);
- 
+
   const shapes = new Set();
   let singleHandExtended = null;
   if (results.multiHandLandmarks && results.multiHandedness) {
@@ -1492,7 +1546,7 @@ function onResults(results) {
     if (extendedList.length === 1) singleHandExtended = extendedList[0];
   }
   canvasCtx.restore();
- 
+
   // Training capture (recording reps for a custom word, or for the distress gesture)
   // is a separate, explicit, timed flow — it never touches Talk's normal
   // recognition/speak pipeline, and vice versa, for the same reason as the wearable's
@@ -1508,7 +1562,7 @@ function onResults(results) {
   if (cameraTrainingBusy) {
     return;
   }
- 
+
   // Distress gesture takes priority over everything else, and requires holding the
   // shape for a beat (not just one frame) so it's a deliberate signal, not a slip.
   if (singleHandExtended && classifyDistressCamera(singleHandExtended)) {
@@ -1522,7 +1576,7 @@ function onResults(results) {
     return;
   }
   camDistressHoldStart = null;
- 
+
   let resolved = null;
   if (shapes.size === 1) {
     const label = [...shapes][0];
@@ -1531,12 +1585,12 @@ function onResults(results) {
     const custom = classifyCustomCamera(singleHandExtended);
     if (custom) resolved = { label: custom.word, phrase: custom.phrase };
   }
- 
+
   history.push(resolved);
   if (history.length > 15) history.shift();
   maybeSpeak();
 }
- 
+
 async function frameLoop() {
   if (cameraRunning) {
     offCtx.save();
@@ -1548,7 +1602,7 @@ async function frameLoop() {
   requestAnimationFrame(frameLoop);
 }
 requestAnimationFrame(frameLoop);
- 
+
 async function toggleCamera() {
   if (!cameraRunning) {
     try {
@@ -1571,7 +1625,7 @@ async function toggleCamera() {
   }
   updateCamButtons();
 }
- 
+
 function updateCamButtons() {
   const mainBtn = document.getElementById("camBtn");
   const libBtn = document.getElementById("camLibConnectBtn");
@@ -1588,14 +1642,14 @@ function updateCamButtons() {
     if (libStatus) libStatus.textContent = "Camera not running — start it to record reps.";
   }
 }
- 
+
 // The library panel's own camera button only ever starts the camera — it never
 // doubles as a stop toggle, so it can't accidentally kill the feed mid-training.
 async function startCameraForTraining() {
   if (cameraRunning) return;
   await toggleCamera();
 }
- 
+
 /* ===================== CAMERA GESTURE LIBRARY (teach VOXA your own words) ===================== */
 const CAM_LIB_KEY = "voxa_camera_library_v1";
 const CAM_CUSTOM_ACCEPT_DIST = 1; // max Hamming distance (out of 5 fingers) to accept a custom match
@@ -1603,11 +1657,11 @@ const CAM_RECOMMENDED_REPS = 3;
 const CAM_TRAIN_GETREADY_MS = 1000;
 const CAM_TRAIN_WINDOW_MS = 1200;
 const CAM_TRAIN_GAP_MS = 500;
- 
+
 let cameraTrainingCaptureActive = false;
 let cameraTrainingFrames = [];
 let cameraTrainingBusy = false;
- 
+
 function loadCameraLibrary() {
   try {
     const raw = localStorage.getItem(CAM_LIB_KEY);
@@ -1617,7 +1671,7 @@ function loadCameraLibrary() {
     return [];
   }
 }
- 
+
 function saveCameraLibraryToStorage() {
   try {
     localStorage.setItem(CAM_LIB_KEY, JSON.stringify(cameraLibrary));
@@ -1625,10 +1679,10 @@ function saveCameraLibraryToStorage() {
     console.warn("Could not save camera gesture library:", e);
   }
 }
- 
+
 let cameraLibrary = loadCameraLibrary();
 let cameraRecordingMode = null; // { editWordId: string|null, pendingSamples: number[][] }
- 
+
 function classifyCustomCamera(extended) {
   if (!cameraLibrary.length) return null;
   let best = null, bestDist = Infinity;
@@ -1641,7 +1695,7 @@ function classifyCustomCamera(extended) {
   }
   return best && bestDist <= CAM_CUSTOM_ACCEPT_DIST ? best : null;
 }
- 
+
 function majorityVoteFrames(frames) {
   const out = [0, 0, 0, 0, 0];
   for (let i = 0; i < 5; i++) {
@@ -1650,7 +1704,7 @@ function majorityVoteFrames(frames) {
   }
   return out;
 }
- 
+
 function renderCameraLibrary() {
   const list = document.getElementById("camLibList");
   if (!list) return;
@@ -1672,7 +1726,7 @@ function renderCameraLibrary() {
     </div>
   `).join("");
 }
- 
+
 function openAddCamWordForm() {
   document.getElementById("camLibForm").style.display = "block";
   document.getElementById("camLibAddToggle").style.display = "none";
@@ -1685,7 +1739,7 @@ function openAddCamWordForm() {
   cameraRecordingMode = { editWordId: null, pendingSamples: [] };
   updateCamRepCounter();
 }
- 
+
 function editCamWord(id) {
   const w = cameraLibrary.find((g) => g.id === id);
   if (!w) return;
@@ -1699,7 +1753,7 @@ function editCamWord(id) {
   cameraRecordingMode = { editWordId: id, pendingSamples: [] };
   updateCamRepCounter();
 }
- 
+
 function closeAddCamWordForm() {
   if (cameraTrainingBusy) return;
   document.getElementById("camLibForm").style.display = "none";
@@ -1708,7 +1762,7 @@ function closeAddCamWordForm() {
   setCameraTrainStatus("");
   cameraRecordingMode = null;
 }
- 
+
 function updateCamRepCounter() {
   const n = cameraRecordingMode ? cameraRecordingMode.pendingSamples.length : 0;
   const existingWord = cameraRecordingMode && cameraRecordingMode.editWordId
@@ -1721,19 +1775,19 @@ function updateCamRepCounter() {
     (n < CAM_RECOMMENDED_REPS ? ` — record at least ${CAM_RECOMMENDED_REPS} for reliable recognition.` : " — good, save now or add more.");
   document.getElementById("camLibSaveBtn").disabled = n === 0;
 }
- 
+
 function stepCamRepCount(delta) {
   const input = document.getElementById("camRepCountInput");
   let v = parseInt(input.value, 10) || 3;
   v = Math.max(1, Math.min(10, v + delta));
   input.value = v;
 }
- 
+
 function setCameraTrainStatus(msg) {
   const el = document.getElementById("camTrainStatus");
   if (el) el.textContent = msg;
 }
- 
+
 function setCameraFormBusy(busy) {
   const ids = [
     "camLibStartRecordBtn", "camRepStepDown", "camRepStepUp", "camLibSaveBtn", "camLibCancelBtn", "camLibConnectBtn", "camBtn",
@@ -1745,29 +1799,29 @@ function setCameraFormBusy(busy) {
   }
   if (!busy) updateCamRepCounter();
 }
- 
+
 async function startCameraRecording() {
   if (!cameraRunning) {
     alert('Start the camera first — use the "Start Camera" button above the reps counter.');
     return;
   }
   if (!cameraRecordingMode || cameraTrainingBusy) return;
- 
+
   const target = Math.max(1, Math.min(10, parseInt(document.getElementById("camRepCountInput").value, 10) || 3));
- 
+
   cameraTrainingBusy = true;
   setCameraFormBusy(true);
- 
+
   for (let i = 1; i <= target; i++) {
     setCameraTrainStatus(`Get ready — rep ${i} of ${target}...`);
     await sleep(CAM_TRAIN_GETREADY_MS);
- 
+
     cameraTrainingFrames = [];
     cameraTrainingCaptureActive = true;
     setCameraTrainStatus(`Hold the gesture now — rep ${i} of ${target}!`);
     await sleep(CAM_TRAIN_WINDOW_MS);
     cameraTrainingCaptureActive = false;
- 
+
     if (cameraTrainingFrames.length > 0) {
       cameraRecordingMode.pendingSamples.push(majorityVoteFrames(cameraTrainingFrames));
       setCameraTrainStatus(`Rep ${i} of ${target} saved.`);
@@ -1777,17 +1831,17 @@ async function startCameraRecording() {
     updateCamRepCounter();
     await sleep(CAM_TRAIN_GAP_MS);
   }
- 
+
   cameraTrainingBusy = false;
   setCameraFormBusy(false);
   setCameraTrainStatus(`Done — recorded ${target} rep${target === 1 ? "" : "s"}.`);
 }
- 
+
 function saveCamWord() {
   if (!cameraRecordingMode || cameraRecordingMode.pendingSamples.length === 0) return;
   const wordInput = document.getElementById("camLibWordInput").value.trim();
   const phraseInput = document.getElementById("camLibPhraseInput").value.trim();
- 
+
   if (cameraRecordingMode.editWordId) {
     const w = cameraLibrary.find((g) => g.id === cameraRecordingMode.editWordId);
     if (w) w.samples.push(...cameraRecordingMode.pendingSamples);
@@ -1807,14 +1861,14 @@ function saveCamWord() {
   renderCameraLibrary();
   closeAddCamWordForm();
 }
- 
+
 function deleteCamWord(id) {
   if (!confirm("Delete this word from your camera library?")) return;
   cameraLibrary = cameraLibrary.filter((w) => w.id !== id);
   saveCameraLibraryToStorage();
   renderCameraLibrary();
 }
- 
+
 function resetCameraLibrary() {
   if (!cameraLibrary.length) return;
   if (!confirm("This clears every custom word you've added to the camera library on this browser. Continue?")) return;
@@ -1823,14 +1877,14 @@ function resetCameraLibrary() {
   renderCameraLibrary();
   closeAddCamWordForm();
 }
- 
+
 renderCameraLibrary();
- 
+
 /* ===================== DISTRESS SIGNAL (camera) ===================== */
 const CAM_DISTRESS_KEY = "voxa_distress_camera_v1";
 const CAM_DISTRESS_HOLD_MS = 1200; // must hold the distress shape this long before it fires — deliberate, not a slip
 const CAM_DISTRESS_REPS = 3;
- 
+
 function loadCamDistress() {
   try {
     const raw = localStorage.getItem(CAM_DISTRESS_KEY);
@@ -1839,14 +1893,14 @@ function loadCamDistress() {
     return null;
   }
 }
- 
+
 let distressGestureCam = loadCamDistress();
 let camDistressPendingSamples = [];
 let camDistressTrainingCaptureActive = false;
 let camDistressTrainingFrames = [];
 let camDistressHoldStart = null;
 let lastDistressTriggerCam = 0;
- 
+
 // Same Hamming-distance nearest-neighbor match as the regular custom camera library,
 // just checked against a single dedicated gesture instead of a whole word list.
 function classifyDistressCamera(extended) {
@@ -1858,7 +1912,7 @@ function classifyDistressCamera(extended) {
   }
   return false;
 }
- 
+
 function renderDistressStatusCam() {
   const status = document.getElementById("camDistressStatus");
   const clearBtn = document.getElementById("camDistressClearBtn");
@@ -1870,7 +1924,7 @@ function renderDistressStatusCam() {
   }
   if (clearBtn) clearBtn.disabled = !distressGestureCam;
 }
- 
+
 function openDistressFormCam() {
   document.getElementById("camDistressForm").style.display = "block";
   document.getElementById("camDistressOpenBtn").style.display = "none";
@@ -1878,14 +1932,14 @@ function openDistressFormCam() {
   setCamDistressTrainStatus("");
   updateCamDistressRepCounter();
 }
- 
+
 function closeDistressFormCam() {
   if (cameraTrainingBusy) return;
   document.getElementById("camDistressForm").style.display = "none";
   document.getElementById("camDistressOpenBtn").style.display = "block";
   setCamDistressTrainStatus("");
 }
- 
+
 function updateCamDistressRepCounter() {
   const n = camDistressPendingSamples.length;
   document.getElementById("camDistressRepCounter").innerHTML =
@@ -1893,19 +1947,19 @@ function updateCamDistressRepCounter() {
     (n < CAM_DISTRESS_REPS ? ` — record at least ${CAM_DISTRESS_REPS}.` : " — good, save now.");
   document.getElementById("camDistressSaveBtn").disabled = n === 0;
 }
- 
+
 function setCamDistressTrainStatus(msg) {
   const el = document.getElementById("camDistressTrainStatus");
   if (el) el.textContent = msg;
 }
- 
+
 async function startCamDistressRecording() {
   if (!cameraRunning) {
     alert('Start the camera first — use the "Start Camera" button above.');
     return;
   }
   if (cameraTrainingBusy) return;
- 
+
   const target = CAM_DISTRESS_REPS;
   cameraTrainingBusy = true; // suspend normal recognition + the word library's training for the whole sequence
   const ids = [
@@ -1913,17 +1967,17 @@ async function startCamDistressRecording() {
     "camLibStartRecordBtn", "camLibSaveBtn", "camLibCancelBtn", "camLibConnectBtn", "camBtn",
   ];
   ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = true; });
- 
+
   for (let i = 1; i <= target; i++) {
     setCamDistressTrainStatus(`Get ready — rep ${i} of ${target}...`);
     await sleep(CAM_TRAIN_GETREADY_MS);
- 
+
     camDistressTrainingFrames = [];
     camDistressTrainingCaptureActive = true;
     setCamDistressTrainStatus(`Hold the gesture now — rep ${i} of ${target}!`);
     await sleep(CAM_TRAIN_WINDOW_MS);
     camDistressTrainingCaptureActive = false;
- 
+
     if (camDistressTrainingFrames.length > 0) {
       camDistressPendingSamples.push(majorityVoteFrames(camDistressTrainingFrames));
       setCamDistressTrainStatus(`Rep ${i} of ${target} saved.`);
@@ -1933,13 +1987,13 @@ async function startCamDistressRecording() {
     updateCamDistressRepCounter();
     await sleep(CAM_TRAIN_GAP_MS);
   }
- 
+
   cameraTrainingBusy = false;
   ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = false; });
   updateCamDistressRepCounter();
   setCamDistressTrainStatus(`Done — recorded ${target} reps.`);
 }
- 
+
 function saveDistressCam() {
   if (!camDistressPendingSamples.length) return;
   distressGestureCam = { samples: camDistressPendingSamples };
@@ -1947,7 +2001,7 @@ function saveDistressCam() {
   renderDistressStatusCam();
   closeDistressFormCam();
 }
- 
+
 function clearDistressCam() {
   if (!distressGestureCam) return;
   if (!confirm("Remove your camera distress gesture?")) return;
@@ -1955,33 +2009,33 @@ function clearDistressCam() {
   try { localStorage.removeItem(CAM_DISTRESS_KEY); } catch (e) {}
   renderDistressStatusCam();
 }
- 
+
 renderDistressStatusCam();
- 
+
 /* ===================== WEARABLE MODE (real Random Forest, real USB) ===================== */
- 
+
 const WEAR_MOTION_THRESHOLD = 2.5;
 const WEAR_WINDOW_MS = 2000;
 const WEAR_COOLDOWN_MS = 1500;
 const AXES_ORDER = ["ax", "ay", "az", "gx", "gy", "gz"]; // must match training order
- 
+
 let wearableModel = null;
 fetch("voxa_model.json")
   .then(r => r.json())
   .then(m => { wearableModel = m; console.log("VOXA model loaded:", m.classes); })
   .catch(() => console.warn("voxa_model.json not found — wearable predictions will be unavailable."));
- 
+
 let serialPort = null;
 let serialReader = null;
 let wearableListening = false;
 let wearableCapturing = false;
 let wearableBuffer = [];
- 
+
 function setWearUI(status, live) {
   document.getElementById("wearStatus").textContent = status;
   document.getElementById("wearDot").classList.toggle("live", !!live);
 }
- 
+
 async function toggleWearable() {
   if (wearableListening) {
     await disconnectWearable();
@@ -1989,7 +2043,7 @@ async function toggleWearable() {
     await connectWearable();
   }
 }
- 
+
 async function connectWearable() {
   if (!("serial" in navigator)) {
     alert("Web Serial isn't supported in this browser. Open this page in Chrome or Edge on a desktop to use the wearable.");
@@ -2008,7 +2062,7 @@ async function connectWearable() {
   setWearUI("Listening...", true);
   readSerialLoop();
 }
- 
+
 // A quick AirDrop-style confirmation the moment the wearable connects: pulsing rings
 // ping outward while the mic icon rises up and settles into place.
 function playConnectAnimation() {
@@ -2024,7 +2078,7 @@ function playConnectAnimation() {
     el.classList.remove("play");
   }, 1650);
 }
- 
+
 async function disconnectWearable() {
   wearableListening = false;
   try {
@@ -2041,7 +2095,7 @@ async function disconnectWearable() {
   updateWearButtons();
   setWearUI("Not connected", false);
 }
- 
+
 function updateWearButtons() {
   const mainBtn = document.getElementById("wearBtn");
   const libBtn = document.getElementById("libConnectBtn");
@@ -2064,7 +2118,7 @@ function updateWearButtons() {
     if (distressStatus) distressStatus.textContent = "Not connected — connect to record.";
   }
 }
- 
+
 // The library's own connect button only ever connects — it never doubles as a
 // disconnect toggle, so clicking it while already connected can't silently drop
 // the connection out from under a training session.
@@ -2072,7 +2126,7 @@ async function connectForTraining() {
   if (wearableListening) return;
   await connectWearable();
 }
- 
+
 async function readSerialLoop() {
   const textDecoder = new TextDecoderStream();
   serialPort.readable.pipeTo(textDecoder.writable).catch(() => {});
@@ -2094,14 +2148,14 @@ async function readSerialLoop() {
     console.warn("Serial read ended:", e);
   }
 }
- 
+
 function handleWearableLine(line) {
   if (!line || line.startsWith("millis")) return;
   const parts = line.split(",");
   if (parts.length !== 7) return;
   const values = parts.slice(1).map(Number);
   if (values.some(v => Number.isNaN(v))) return;
- 
+
   // Training capture is a fixed, explicit time window (started by "Start recording") —
   // it never touches Talk's motion-triggered recognition, and vice versa.
   if (trainingCaptureActive) {
@@ -2112,22 +2166,22 @@ function handleWearableLine(line) {
     wearDistressTrainingFrames.push(values);
     return;
   }
- 
+
   // Talk's auto-recognition is fully suspended for the whole training session (get-ready
   // pauses and gaps between reps included), not just the 2s capture window itself —
   // otherwise a motion during "get ready" could trigger Talk to speak mid-recording.
   if (trainingBusy) {
     return;
   }
- 
+
   if (wearableCapturing) {
     wearableBuffer.push(values);
     return;
   }
- 
+
   const motion = Math.abs(values[0]) + Math.abs(values[1]) + Math.abs(values[2] - 9.8)
                + Math.abs(values[3]) + Math.abs(values[4]) + Math.abs(values[5]);
- 
+
   if (motion > WEAR_MOTION_THRESHOLD) {
     wearableCapturing = true;
     wearableBuffer = [values];
@@ -2135,7 +2189,7 @@ function handleWearableLine(line) {
     setTimeout(finishWearableCapture, WEAR_WINDOW_MS);
   }
 }
- 
+
 function computeFeatures(samples) {
   const feats = [];
   for (let col = 0; col < 6; col++) {
@@ -2148,7 +2202,7 @@ function computeFeatures(samples) {
   }
   return feats;
 }
- 
+
 function predictForest(model, features) {
   const probs = new Array(model.classes.length).fill(0);
   for (const tree of model.trees) {
@@ -2167,7 +2221,7 @@ function predictForest(model, features) {
   }
   return model.classes[best];
 }
- 
+
 function finishWearableCapture() {
   // This path is Talk mode only — motion-triggered live recognition. Training
   // (recording reps for a new word) runs on its own explicit timed window and
@@ -2175,7 +2229,7 @@ function finishWearableCapture() {
   wearableCapturing = false;
   if (trainingBusy) return; // a Talk capture that was already in flight when training started — discard it, don't speak
   const feats = computeFeatures(wearableBuffer);
- 
+
   // Distress takes priority over everything else — checked first, and never falls
   // through to also speak a normal word for the same capture.
   if (classifyDistressWearable(feats)) {
@@ -2189,7 +2243,7 @@ function finishWearableCapture() {
     }
     return;
   }
- 
+
   const custom = classifyCustom(feats);
   let pred, phrase;
   if (custom) {
@@ -2202,7 +2256,7 @@ function finishWearableCapture() {
     setWearUI("Model not loaded", true);
     return;
   }
- 
+
   setWordText(document.getElementById("wearWord"), pred.toUpperCase());
   setWearUI("Speaking...", true);
   speak(phrase);
@@ -2210,12 +2264,12 @@ function finishWearableCapture() {
     if (wearableListening) setWearUI("Listening...", true);
   }, WEAR_COOLDOWN_MS);
 }
- 
+
 /* ===================== GESTURE LIBRARY (teach VOXA your own words) ===================== */
 const LIB_KEY = "voxa_gesture_library_v1";
 const CUSTOM_ACCEPT_DIST = 3.4; // nearest-neighbor distance threshold in normalized (z-score) space
 const RECOMMENDED_REPS = 3;
- 
+
 function loadLibrary() {
   try {
     const raw = localStorage.getItem(LIB_KEY);
@@ -2225,7 +2279,7 @@ function loadLibrary() {
     return [];
   }
 }
- 
+
 function saveLibraryToStorage() {
   try {
     localStorage.setItem(LIB_KEY, JSON.stringify(gestureLibrary));
@@ -2233,10 +2287,10 @@ function saveLibraryToStorage() {
     console.warn("Could not save gesture library:", e);
   }
 }
- 
+
 let gestureLibrary = loadLibrary();
 let recordingMode = null; // { editWordId: string|null, pendingSamples: number[][] }
- 
+
 // Training capture is fully separate from Talk's motion-triggered listening (wearableCapturing).
 // It only runs during an explicit, fixed-length window started by "Start recording".
 let trainingCaptureActive = false;
@@ -2245,15 +2299,15 @@ let trainingBusy = false;
 const TRAIN_WINDOW_MS = 2000;
 const TRAIN_GETREADY_MS = 1000;
 const TRAIN_GAP_MS = 500;
- 
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
- 
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
- 
+
 function renderLibrary() {
   const list = document.getElementById("libList");
   if (!list) return;
@@ -2275,7 +2329,7 @@ function renderLibrary() {
     </div>
   `).join("");
 }
- 
+
 function openAddWordForm() {
   document.getElementById("libForm").style.display = "block";
   document.getElementById("libAddToggle").style.display = "none";
@@ -2288,7 +2342,7 @@ function openAddWordForm() {
   recordingMode = { editWordId: null, pendingSamples: [] };
   updateRepCounter();
 }
- 
+
 function editWord(id) {
   const w = gestureLibrary.find((g) => g.id === id);
   if (!w) return;
@@ -2302,7 +2356,7 @@ function editWord(id) {
   recordingMode = { editWordId: id, pendingSamples: [] };
   updateRepCounter();
 }
- 
+
 function closeAddWordForm() {
   if (trainingBusy) return; // Cancel is disabled during a recording sequence anyway
   document.getElementById("libForm").style.display = "none";
@@ -2311,7 +2365,7 @@ function closeAddWordForm() {
   setTrainStatus("");
   recordingMode = null;
 }
- 
+
 function updateRepCounter() {
   const n = recordingMode ? recordingMode.pendingSamples.length : 0;
   const existingWord = recordingMode && recordingMode.editWordId
@@ -2324,47 +2378,47 @@ function updateRepCounter() {
     (n < RECOMMENDED_REPS ? ` — record at least ${RECOMMENDED_REPS} for reliable recognition.` : " — good, save now or add more.");
   document.getElementById("libSaveBtn").disabled = n === 0;
 }
- 
+
 function setTrainStatus(msg) {
   const el = document.getElementById("trainStatus");
   if (el) el.textContent = msg;
 }
- 
+
 function stepRepCount(delta) {
   const input = document.getElementById("repCountInput");
   let v = parseInt(input.value, 10) || 3;
   v = Math.max(1, Math.min(10, v + delta));
   input.value = v;
 }
- 
+
 async function startRecording() {
   if (!wearableListening) {
     alert('Connect the wearable first — use the "Connect Wearable" button above the reps counter.');
     return;
   }
   if (!recordingMode || trainingBusy) return;
- 
+
   const target = Math.max(1, Math.min(10, parseInt(document.getElementById("repCountInput").value, 10) || 3));
- 
+
   // Defensive reset: discard any Talk capture that happened to be mid-flight the instant training starts.
   wearableCapturing = false;
   wearableBuffer = [];
- 
+
   trainingBusy = true;
   setFormBusy(true);
- 
+
   for (let i = 1; i <= target; i++) {
     setTrainStatus(`Get ready — rep ${i} of ${target}...`);
     setWearUI(`Training: get ready (${i}/${target})`, true);
     await sleep(TRAIN_GETREADY_MS);
- 
+
     trainingBuffer = [];
     trainingCaptureActive = true;
     setTrainStatus(`Recording rep ${i} of ${target} — do the gesture now!`);
     setWearUI(`Training: recording (${i}/${target})`, true);
     await sleep(TRAIN_WINDOW_MS);
     trainingCaptureActive = false;
- 
+
     if (trainingBuffer.length > 0) {
       recordingMode.pendingSamples.push(computeFeatures(trainingBuffer));
       setTrainStatus(`Rep ${i} of ${target} saved.`);
@@ -2375,12 +2429,12 @@ async function startRecording() {
     setWearUI(wearableListening ? "Listening..." : "Not connected", wearableListening);
     await sleep(TRAIN_GAP_MS);
   }
- 
+
   trainingBusy = false;
   setFormBusy(false);
   setTrainStatus(`Done — recorded ${target} rep${target === 1 ? "" : "s"}.`);
 }
- 
+
 function setFormBusy(busy) {
   const ids = ["libStartRecordBtn", "repStepDown", "repStepUp", "libSaveBtn", "libCancelBtn", "libConnectBtn", "wearBtn"];
   for (const id of ids) {
@@ -2389,12 +2443,12 @@ function setFormBusy(busy) {
   }
   if (!busy) updateRepCounter(); // restores libSaveBtn's own enabled/disabled state
 }
- 
+
 function saveWord() {
   if (!recordingMode || recordingMode.pendingSamples.length === 0) return;
   const wordInput = document.getElementById("libWordInput").value.trim();
   const phraseInput = document.getElementById("libPhraseInput").value.trim();
- 
+
   if (recordingMode.editWordId) {
     const w = gestureLibrary.find((g) => g.id === recordingMode.editWordId);
     if (w) w.samples.push(...recordingMode.pendingSamples);
@@ -2414,14 +2468,14 @@ function saveWord() {
   renderLibrary();
   closeAddWordForm();
 }
- 
+
 function deleteWord(id) {
   if (!confirm("Delete this word from your library?")) return;
   gestureLibrary = gestureLibrary.filter((w) => w.id !== id);
   saveLibraryToStorage();
   renderLibrary();
 }
- 
+
 function resetLibrary() {
   if (!gestureLibrary.length) return;
   if (!confirm("This clears every custom word you've added on this browser. Continue?")) return;
@@ -2430,7 +2484,7 @@ function resetLibrary() {
   renderLibrary();
   closeAddWordForm();
 }
- 
+
 function computeNormStats(lib) {
   const allSamples = [];
   for (const w of lib) for (const s of w.samples) allSamples.push(s);
@@ -2444,11 +2498,11 @@ function computeNormStats(lib) {
   for (let i = 0; i < dims; i++) std[i] = Math.sqrt(std[i] / allSamples.length) || 1;
   return { mean, std };
 }
- 
+
 function normalizeFeats(feats, stats) {
   return feats.map((v, i) => (v - stats.mean[i]) / stats.std[i]);
 }
- 
+
 function classifyCustom(feats) {
   if (!gestureLibrary.length) return null;
   const stats = computeNormStats(gestureLibrary);
@@ -2466,13 +2520,13 @@ function classifyCustom(feats) {
   }
   return best && bestDist <= CUSTOM_ACCEPT_DIST ? best : null;
 }
- 
+
 renderLibrary();
- 
+
 /* ===================== DISTRESS SIGNAL (wearable) ===================== */
 const WEAR_DISTRESS_KEY = "voxa_distress_wearable_v1";
 const WEAR_DISTRESS_REPS = 3;
- 
+
 function loadWearDistress() {
   try {
     const raw = localStorage.getItem(WEAR_DISTRESS_KEY);
@@ -2481,13 +2535,13 @@ function loadWearDistress() {
     return null;
   }
 }
- 
+
 let distressGestureWear = loadWearDistress();
 let wearDistressPendingSamples = [];
 let wearDistressTrainingCaptureActive = false;
 let wearDistressTrainingFrames = [];
 let lastDistressTriggerWear = 0;
- 
+
 // Same normalized nearest-neighbor match as the regular wearable word library, just
 // checked against a single dedicated distress gesture instead of the whole word list.
 function classifyDistressWearable(feats) {
@@ -2505,7 +2559,7 @@ function classifyDistressWearable(feats) {
   }
   return bestDist <= CUSTOM_ACCEPT_DIST;
 }
- 
+
 function renderDistressStatusWear() {
   const status = document.getElementById("wearDistressStatus");
   const clearBtn = document.getElementById("wearDistressClearBtn");
@@ -2517,7 +2571,7 @@ function renderDistressStatusWear() {
   }
   if (clearBtn) clearBtn.disabled = !distressGestureWear;
 }
- 
+
 function openDistressFormWear() {
   document.getElementById("wearDistressForm").style.display = "block";
   document.getElementById("wearDistressOpenBtn").style.display = "none";
@@ -2525,14 +2579,14 @@ function openDistressFormWear() {
   setWearDistressTrainStatus("");
   updateWearDistressRepCounter();
 }
- 
+
 function closeDistressFormWear() {
   if (trainingBusy) return;
   document.getElementById("wearDistressForm").style.display = "none";
   document.getElementById("wearDistressOpenBtn").style.display = "block";
   setWearDistressTrainStatus("");
 }
- 
+
 function updateWearDistressRepCounter() {
   const n = wearDistressPendingSamples.length;
   document.getElementById("wearDistressRepCounter").innerHTML =
@@ -2540,19 +2594,19 @@ function updateWearDistressRepCounter() {
     (n < WEAR_DISTRESS_REPS ? ` — record at least ${WEAR_DISTRESS_REPS}.` : " — good, save now.");
   document.getElementById("wearDistressSaveBtn").disabled = n === 0;
 }
- 
+
 function setWearDistressTrainStatus(msg) {
   const el = document.getElementById("wearDistressTrainStatus");
   if (el) el.textContent = msg;
 }
- 
+
 async function startWearDistressRecording() {
   if (!wearableListening) {
     alert("Connect the wearable first.");
     return;
   }
   if (trainingBusy) return;
- 
+
   const target = WEAR_DISTRESS_REPS;
   trainingBusy = true; // suspend Talk's normal recognition + the word library's training for the whole sequence
   wearableCapturing = false;
@@ -2562,17 +2616,17 @@ async function startWearDistressRecording() {
     "libStartRecordBtn", "libSaveBtn", "libCancelBtn", "libConnectBtn", "wearBtn",
   ];
   ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = true; });
- 
+
   for (let i = 1; i <= target; i++) {
     setWearDistressTrainStatus(`Get ready — rep ${i} of ${target}...`);
     await sleep(TRAIN_GETREADY_MS);
- 
+
     wearDistressTrainingFrames = [];
     wearDistressTrainingCaptureActive = true;
     setWearDistressTrainStatus(`Perform the motion now — rep ${i} of ${target}!`);
     await sleep(TRAIN_WINDOW_MS);
     wearDistressTrainingCaptureActive = false;
- 
+
     if (wearDistressTrainingFrames.length > 0) {
       wearDistressPendingSamples.push(computeFeatures(wearDistressTrainingFrames));
       setWearDistressTrainStatus(`Rep ${i} of ${target} saved.`);
@@ -2582,13 +2636,13 @@ async function startWearDistressRecording() {
     updateWearDistressRepCounter();
     await sleep(TRAIN_GAP_MS);
   }
- 
+
   trainingBusy = false;
   ids.forEach((id) => { const el = document.getElementById(id); if (el) el.disabled = false; });
   updateWearDistressRepCounter();
   setWearDistressTrainStatus(`Done — recorded ${target} reps.`);
 }
- 
+
 function saveDistressWear() {
   if (!wearDistressPendingSamples.length) return;
   distressGestureWear = { samples: wearDistressPendingSamples };
@@ -2596,7 +2650,7 @@ function saveDistressWear() {
   renderDistressStatusWear();
   closeDistressFormWear();
 }
- 
+
 function clearDistressWear() {
   if (!distressGestureWear) return;
   if (!confirm("Remove your wearable distress gesture?")) return;
@@ -2604,9 +2658,9 @@ function clearDistressWear() {
   try { localStorage.removeItem(WEAR_DISTRESS_KEY); } catch (e) {}
   renderDistressStatusWear();
 }
- 
+
 renderDistressStatusWear();
- 
+
 /* ===================== LOCATION SHARING (wearable only) ===================== */
 function shareMyLocation() {
   if (!("geolocation" in navigator)) {
@@ -2636,7 +2690,7 @@ function shareMyLocation() {
     { enableHighAccuracy: true, timeout: 10000 }
   );
 }
- 
+
 function copyLocLink() {
   const input = document.getElementById("locShareLink");
   input.select();
@@ -2646,7 +2700,7 @@ function copyLocLink() {
     document.execCommand("copy");
   }
 }
- 
+
 function checkIncomingLocation() {
   const params = new URLSearchParams(window.location.search);
   const loc = params.get("loc");
@@ -2654,16 +2708,16 @@ function checkIncomingLocation() {
   const parts = loc.split(",").map(Number);
   const lat = parts[0], lng = parts[1];
   if (Number.isNaN(lat) || Number.isNaN(lng)) return;
- 
+
   const box = document.getElementById("locReceived");
   const text = document.getElementById("locReceivedText");
   if (!box || !text) return;
- 
+
   const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
   text.innerHTML = `Someone shared their location with you. <a href="${mapsUrl}" target="_blank" rel="noopener">Open in Maps</a>.`;
   box.style.display = "flex";
   showPage("wearable");
- 
+
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -2676,23 +2730,23 @@ function checkIncomingLocation() {
   }
 }
 checkIncomingLocation();
- 
+
 /* ---------- PWA install support ---------- */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").catch((e) => console.warn("SW registration failed:", e));
   });
 }
- 
+
 let deferredInstallPrompt = null;
 const installBtn = document.getElementById("install-btn");
- 
+
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
   installBtn.classList.add("show");
 });
- 
+
 async function installApp() {
   if (!deferredInstallPrompt) return;
   deferredInstallPrompt.prompt();
@@ -2700,7 +2754,7 @@ async function installApp() {
   if (outcome === "accepted") installBtn.classList.remove("show");
   deferredInstallPrompt = null;
 }
- 
+
 window.addEventListener("appinstalled", () => {
   installBtn.classList.remove("show");
   deferredInstallPrompt = null;
