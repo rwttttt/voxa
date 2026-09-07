@@ -338,7 +338,27 @@
   }
   .lib-form-row input[type=text]:focus { outline: none; border-color: var(--black); }
 
-  .lib-record-row { display: flex; align-items: center; gap: 12px; margin: 16px 0; flex-wrap: wrap; }
+  .lib-connect-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .lib-connect-status { font-size: 12px; color: var(--text-dim); }
+
+  .lib-record-row { display: flex; align-items: center; gap: 12px; margin: 16px 0 10px; flex-wrap: wrap; }
+  .rep-count-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-dim); }
+  .stepper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .stepper-btn {
+    background: var(--bg); border: none; width: 28px; height: 32px;
+    font-size: 16px; font-family: inherit; cursor: pointer; color: var(--text-main);
+  }
+  .stepper-btn:hover { background: var(--border); }
+  .stepper-btn:disabled { cursor: default; opacity: .5; }
+  .stepper input[type=number] {
+    width: 34px; text-align: center; border: none; font-size: 13px; font-family: inherit;
+    height: 32px; background: var(--card); color: var(--text-main); -moz-appearance: textfield;
+  }
+  .stepper input[type=number]::-webkit-inner-spin-button,
+  .stepper input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+  .train-status { font-size: 12.5px; color: var(--text-main); min-height: 18px; font-weight: 600; margin-bottom: 4px; }
+
   .rep-counter { font-size: 13px; color: var(--text-dim); }
   .rep-counter b { color: var(--text-main); }
   .lib-form-actions { display: flex; gap: 10px; }
@@ -485,13 +505,26 @@
         <label>What VOXA says out loud (optional)</label>
         <input type="text" id="libPhraseInput" placeholder="Defaults to the word above" />
       </div>
-      <div class="lib-record-row">
-        <button class="btn-sm" id="libRecordBtn" onclick="recordRep()">Record a rep</button>
-        <div class="rep-counter" id="repCounter">0 reps recorded — record at least 3 for reliable recognition.</div>
+      <div class="lib-connect-row" id="libConnectRow">
+        <button class="btn-sm" id="libConnectBtn" onclick="toggleWearable()">Connect Wearable</button>
+        <span class="lib-connect-status" id="libConnectStatus">Not connected — connect to record reps.</span>
       </div>
+
+      <div class="lib-record-row">
+        <span class="rep-count-label">Reps to record</span>
+        <div class="stepper">
+          <button type="button" class="stepper-btn" id="repStepDown" onclick="stepRepCount(-1)">−</button>
+          <input type="number" id="repCountInput" value="3" min="1" max="10" readonly />
+          <button type="button" class="stepper-btn" id="repStepUp" onclick="stepRepCount(1)">+</button>
+        </div>
+        <button class="btn-sm" id="libStartRecordBtn" onclick="startRecording()">Start recording</button>
+      </div>
+      <div class="train-status" id="trainStatus"></div>
+      <div class="rep-counter" id="repCounter">0 reps recorded — record at least 3 for reliable recognition.</div>
+
       <div class="lib-form-actions">
         <button class="primary" id="libSaveBtn" onclick="saveWord()" disabled>Save word</button>
-        <button class="btn-sm" onclick="closeAddWordForm()">Cancel</button>
+        <button class="btn-sm" id="libCancelBtn" onclick="closeAddWordForm()">Cancel</button>
       </div>
     </div>
 
@@ -786,8 +819,7 @@ async function connectWearable() {
     return;
   }
   wearableListening = true;
-  document.getElementById("wearBtn").textContent = "Disconnect";
-  document.getElementById("wearBtn").classList.add("stop");
+  updateWearButtons();
   setWearUI("Listening...", true);
   readSerialLoop();
 }
@@ -805,9 +837,25 @@ async function disconnectWearable() {
       serialPort = null;
     }
   } catch (e) { console.warn(e); }
-  document.getElementById("wearBtn").textContent = "Connect Wearable";
-  document.getElementById("wearBtn").classList.remove("stop");
+  updateWearButtons();
   setWearUI("Not connected", false);
+}
+
+function updateWearButtons() {
+  const mainBtn = document.getElementById("wearBtn");
+  const libBtn = document.getElementById("libConnectBtn");
+  const libStatus = document.getElementById("libConnectStatus");
+  if (wearableListening) {
+    mainBtn.textContent = "Disconnect";
+    mainBtn.classList.add("stop");
+    if (libBtn) libBtn.textContent = "Disconnect";
+    if (libStatus) libStatus.textContent = "Wearable connected.";
+  } else {
+    mainBtn.textContent = "Connect Wearable";
+    mainBtn.classList.remove("stop");
+    if (libBtn) libBtn.textContent = "Connect Wearable";
+    if (libStatus) libStatus.textContent = "Not connected — connect to record reps.";
+  }
 }
 
 async function readSerialLoop() {
@@ -838,6 +886,13 @@ function handleWearableLine(line) {
   if (parts.length !== 7) return;
   const values = parts.slice(1).map(Number);
   if (values.some(v => Number.isNaN(v))) return;
+
+  // Training capture is a fixed, explicit time window (started by "Start recording") —
+  // it never touches Talk's motion-triggered recognition, and vice versa.
+  if (trainingCaptureActive) {
+    trainingBuffer.push(values);
+    return;
+  }
 
   if (wearableCapturing) {
     wearableBuffer.push(values);
@@ -888,18 +943,11 @@ function predictForest(model, features) {
 }
 
 function finishWearableCapture() {
+  // This path is Talk mode only — motion-triggered live recognition. Training
+  // (recording reps for a new word) runs on its own explicit timed window and
+  // never comes through here.
   wearableCapturing = false;
   const feats = computeFeatures(wearableBuffer);
-
-  // Training capture — feed this rep into the word being taught instead of predicting.
-  if (recordingMode) {
-    recordingMode.pendingSamples.push(feats);
-    updateRepCounter();
-    const btn = document.getElementById("libRecordBtn");
-    if (btn) btn.disabled = false;
-    setWearUI("Rep recorded — do it again or hit Save", true);
-    return;
-  }
 
   const custom = classifyCustom(feats);
   let pred, phrase;
@@ -948,6 +996,19 @@ function saveLibraryToStorage() {
 let gestureLibrary = loadLibrary();
 let recordingMode = null; // { editWordId: string|null, pendingSamples: number[][] }
 
+// Training capture is fully separate from Talk's motion-triggered listening (wearableCapturing).
+// It only runs during an explicit, fixed-length window started by "Start recording".
+let trainingCaptureActive = false;
+let trainingBuffer = [];
+let trainingBusy = false;
+const TRAIN_WINDOW_MS = 2000;
+const TRAIN_GETREADY_MS = 1000;
+const TRAIN_GAP_MS = 500;
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
@@ -981,6 +1042,8 @@ function openAddWordForm() {
   wordInput.disabled = false;
   wordInput.value = "";
   document.getElementById("libPhraseInput").value = "";
+  document.getElementById("repCountInput").value = 3;
+  setTrainStatus("");
   recordingMode = { editWordId: null, pendingSamples: [] };
   updateRepCounter();
 }
@@ -993,14 +1056,18 @@ function editWord(id) {
   document.getElementById("libWordInput").value = w.word;
   document.getElementById("libWordInput").disabled = true;
   document.getElementById("libPhraseInput").value = w.phrase !== w.word ? w.phrase : "";
+  document.getElementById("repCountInput").value = 3;
+  setTrainStatus("");
   recordingMode = { editWordId: id, pendingSamples: [] };
   updateRepCounter();
 }
 
 function closeAddWordForm() {
+  if (trainingBusy) return; // Cancel is disabled during a recording sequence anyway
   document.getElementById("libForm").style.display = "none";
   document.getElementById("libAddToggle").style.display = "block";
   document.getElementById("libWordInput").disabled = false;
+  setTrainStatus("");
   recordingMode = null;
 }
 
@@ -1017,14 +1084,65 @@ function updateRepCounter() {
   document.getElementById("libSaveBtn").disabled = n === 0;
 }
 
-function recordRep() {
+function setTrainStatus(msg) {
+  const el = document.getElementById("trainStatus");
+  if (el) el.textContent = msg;
+}
+
+function stepRepCount(delta) {
+  const input = document.getElementById("repCountInput");
+  let v = parseInt(input.value, 10) || 3;
+  v = Math.max(1, Math.min(10, v + delta));
+  input.value = v;
+}
+
+async function startRecording() {
   if (!wearableListening) {
-    alert('Connect the wearable first — click "Connect Wearable" above, then come back and record.');
+    alert('Connect the wearable first — use the "Connect Wearable" button above the reps counter.');
     return;
   }
-  if (!recordingMode || wearableCapturing) return;
-  setWearUI("Perform the gesture now...", true);
-  document.getElementById("libRecordBtn").disabled = true;
+  if (!recordingMode || trainingBusy) return;
+
+  const target = Math.max(1, Math.min(10, parseInt(document.getElementById("repCountInput").value, 10) || 3));
+
+  trainingBusy = true;
+  setFormBusy(true);
+
+  for (let i = 1; i <= target; i++) {
+    setTrainStatus(`Get ready — rep ${i} of ${target}...`);
+    setWearUI(`Training: get ready (${i}/${target})`, true);
+    await sleep(TRAIN_GETREADY_MS);
+
+    trainingBuffer = [];
+    trainingCaptureActive = true;
+    setTrainStatus(`Recording rep ${i} of ${target} — do the gesture now!`);
+    setWearUI(`Training: recording (${i}/${target})`, true);
+    await sleep(TRAIN_WINDOW_MS);
+    trainingCaptureActive = false;
+
+    if (trainingBuffer.length > 0) {
+      recordingMode.pendingSamples.push(computeFeatures(trainingBuffer));
+      setTrainStatus(`Rep ${i} of ${target} saved.`);
+    } else {
+      setTrainStatus(`No motion data received for rep ${i} — check the wearable is connected.`);
+    }
+    updateRepCounter();
+    setWearUI(wearableListening ? "Listening..." : "Not connected", wearableListening);
+    await sleep(TRAIN_GAP_MS);
+  }
+
+  trainingBusy = false;
+  setFormBusy(false);
+  setTrainStatus(`Done — recorded ${target} rep${target === 1 ? "" : "s"}.`);
+}
+
+function setFormBusy(busy) {
+  const ids = ["libStartRecordBtn", "repStepDown", "repStepUp", "libSaveBtn", "libCancelBtn", "libConnectBtn", "wearBtn"];
+  for (const id of ids) {
+    const el = document.getElementById(id);
+    if (el) el.disabled = busy;
+  }
+  if (!busy) updateRepCounter(); // restores libSaveBtn's own enabled/disabled state
 }
 
 function saveWord() {
