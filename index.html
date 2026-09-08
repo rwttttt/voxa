@@ -659,6 +659,23 @@
   .lib-reset-row { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 6px; display: flex; align-items: center; justify-content: space-between; }
   .lib-reset-row .txt { font-size: 12px; color: var(--text-dim); max-width: 340px; }
 
+  .lib-item .name { display: flex; align-items: center; gap: 7px; }
+  .default-tag {
+    font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--text-dim); border: 1px solid var(--border); border-radius: 999px;
+    padding: 2px 7px;
+  }
+
+  .lib-export-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .lib-export-hint { font-size: 11px; color: var(--text-dim); }
+  .lib-form-row textarea {
+    width: 100%; box-sizing: border-box;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 11.5px; font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    background: var(--bg); color: var(--text-main);
+    min-height: 130px; resize: vertical;
+  }
+
   footer.page-footer {
     border-top: 1px solid var(--border);
     color: var(--text-dim);
@@ -948,7 +965,7 @@
 
   <div class="lib-card">
     <h2>Teach VOXA your own words</h2>
-    <div class="lib-sub">Every browser keeps its own private set of words — nothing is shared or uploaded. Connect the wearable above, then record a few reps of a motion and give it a word. <b>Yes / No / Help</b> above always keep working alongside whatever you add here.</div>
+    <div class="lib-sub">Every browser keeps its own private set of words — nothing is shared or uploaded. Connect the wearable above, then record a few reps of a motion and give it a word. <b>Yes / No / Help</b> above always keep working alongside whatever you add here. Words marked <b>Default</b> ship with the site itself, so anyone using VOXA has them from the start — remove one you don't want, or add reps to make it more reliable.</div>
 
     <div class="lib-list" id="libList"></div>
 
@@ -987,8 +1004,23 @@
     </div>
 
     <div class="lib-reset-row">
-      <div class="txt">Wipes every custom word you've added on this browser. Yes/No/Help are unaffected.</div>
+      <div class="txt">Clears everything you've added on this browser and restores the default word set. Yes/No/Help are unaffected.</div>
       <button class="btn-sm danger" onclick="resetLibrary()">Start a fresh library</button>
+    </div>
+
+    <div class="lib-export-row">
+      <button class="btn-sm" id="libExportBtn" onclick="exportLibraryData()">Export library data</button>
+      <span class="lib-export-hint">For adding new words to the default set that ships with the site — not needed for everyday use.</span>
+    </div>
+    <div class="lib-form" id="libExportWrap" style="display:none;">
+      <div class="lib-form-row">
+        <label>Recorded words, as JSON</label>
+        <textarea id="libExportBox" readonly onclick="this.select()"></textarea>
+      </div>
+      <div class="lib-form-actions">
+        <button class="btn-sm" onclick="copyLibExport()">Copy</button>
+        <button class="btn-sm" onclick="document.getElementById('libExportWrap').style.display='none'">Close</button>
+      </div>
     </div>
   </div>
 
@@ -2267,17 +2299,60 @@ function finishWearableCapture() {
 
 /* ===================== GESTURE LIBRARY (teach VOXA your own words) ===================== */
 const LIB_KEY = "voxa_gesture_library_v1";
+const LIB_DISMISSED_DEFAULTS_KEY = "voxa_gesture_library_dismissed_defaults_v1";
 const CUSTOM_ACCEPT_DIST = 3.4; // nearest-neighbor distance threshold in normalized (z-score) space
 const RECOMMENDED_REPS = 3;
 
-function loadLibrary() {
+// Default wearable vocabulary: ships baked into the site itself, so it's present for
+// every visitor on any device without them ever having to train it — Yes/No/Help (the
+// hardcoded model) plus whatever's recorded here. Each entry needs real motion samples
+// captured on the physical wearable (via the "Teach VOXA your own words" trainer below,
+// then exported with the "Export library data" button) — this array is empty until that
+// data is collected and baked in.
+const DEFAULT_WEARABLE_WORDS = [
+  // { id: "default_water", word: "water", phrase: "water", samples: [[...24 numbers...], ...] },
+];
+
+function loadDismissedDefaults() {
   try {
-    const raw = localStorage.getItem(LIB_KEY);
+    const raw = localStorage.getItem(LIB_DISMISSED_DEFAULTS_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
-    console.warn("Could not read gesture library:", e);
     return [];
   }
+}
+
+function saveDismissedDefaults(list) {
+  try {
+    localStorage.setItem(LIB_DISMISSED_DEFAULTS_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.warn("Could not save dismissed defaults:", e);
+  }
+}
+
+// Merges the baked-in default vocabulary with whatever's saved on this browser.
+// A default the user hasn't touched comes straight from DEFAULT_WEARABLE_WORDS; one
+// they've added reps to comes from their saved copy instead (so those extra reps
+// aren't lost); one they've explicitly deleted is left out entirely.
+function loadLibrary() {
+  let custom = [];
+  try {
+    const raw = localStorage.getItem(LIB_KEY);
+    custom = raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.warn("Could not read gesture library:", e);
+  }
+  const dismissed = loadDismissedDefaults();
+  const customIds = new Set(custom.map((w) => w.id));
+  const defaultIds = new Set(DEFAULT_WEARABLE_WORDS.map((w) => w.id));
+
+  const untouchedDefaults = DEFAULT_WEARABLE_WORDS
+    .filter((w) => !dismissed.includes(w.id) && !customIds.has(w.id))
+    .map((w) => ({ ...w, samples: w.samples.map((s) => s.slice()), isDefault: true }));
+
+  const savedWords = custom.map((w) => (defaultIds.has(w.id) ? { ...w, isDefault: true } : w));
+
+  return [...untouchedDefaults, ...savedWords];
 }
 
 function saveLibraryToStorage() {
@@ -2318,7 +2393,7 @@ function renderLibrary() {
   list.innerHTML = gestureLibrary.map((w) => `
     <div class="lib-item">
       <div>
-        <div class="name">${escapeHtml(w.word)}</div>
+        <div class="name">${escapeHtml(w.word)}${w.isDefault ? '<span class="default-tag">Default</span>' : ""}</div>
         ${w.phrase && w.phrase !== w.word ? `<div class="phrase">Says: "${escapeHtml(w.phrase)}"</div>` : ""}
         <div class="count">${w.samples.length} rep${w.samples.length === 1 ? "" : "s"} recorded</div>
       </div>
@@ -2470,19 +2545,57 @@ function saveWord() {
 }
 
 function deleteWord(id) {
-  if (!confirm("Delete this word from your library?")) return;
+  const isDefault = DEFAULT_WEARABLE_WORDS.some((w) => w.id === id);
+  if (!confirm(isDefault
+    ? "Remove this default word from your library? You can bring back the full default set with \"Start a fresh library\"."
+    : "Delete this word from your library?")) return;
   gestureLibrary = gestureLibrary.filter((w) => w.id !== id);
+  if (isDefault) {
+    const dismissed = loadDismissedDefaults();
+    if (!dismissed.includes(id)) {
+      dismissed.push(id);
+      saveDismissedDefaults(dismissed);
+    }
+  }
   saveLibraryToStorage();
   renderLibrary();
 }
 
+// "Fresh library" resets to exactly what ships with the site: every word you've added
+// yourself is cleared, any default you'd removed comes back, and any reps you'd added
+// on top of a default are dropped back to its shipped set.
 function resetLibrary() {
-  if (!gestureLibrary.length) return;
-  if (!confirm("This clears every custom word you've added on this browser. Continue?")) return;
-  gestureLibrary = [];
-  saveLibraryToStorage();
+  // Note: don't gate this on gestureLibrary.length — a visitor who deleted every default
+  // word can have an empty library right now, and this button is exactly how they'd get
+  // those defaults back, so a dismissed-defaults-only state must still be resettable.
+  if (!gestureLibrary.length && !loadDismissedDefaults().length) return;
+  if (!confirm("This clears every custom word you've added on this browser and restores the default set. Continue?")) return;
+  localStorage.removeItem(LIB_DISMISSED_DEFAULTS_KEY);
+  localStorage.removeItem(LIB_KEY);
+  gestureLibrary = loadLibrary();
   renderLibrary();
   closeAddWordForm();
+}
+
+// Dumps the current library as JSON so it can be handed off and baked into
+// DEFAULT_WEARABLE_WORDS in a future update — not something an everyday visitor needs.
+function exportLibraryData() {
+  const data = gestureLibrary.map(({ id, word, phrase, samples }) => ({ id, word, phrase, samples }));
+  const box = document.getElementById("libExportBox");
+  const wrap = document.getElementById("libExportWrap");
+  if (box) box.value = JSON.stringify(data, null, 2);
+  if (wrap) wrap.style.display = "block";
+}
+
+function copyLibExport() {
+  const box = document.getElementById("libExportBox");
+  if (!box) return;
+  box.select();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(box.value).catch(() => {});
+  } else {
+    document.execCommand("copy");
+  }
 }
 
 function computeNormStats(lib) {
