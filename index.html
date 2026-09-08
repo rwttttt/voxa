@@ -2307,10 +2307,18 @@ const RECOMMENDED_REPS = 3;
 // every visitor on any device without them ever having to train it — Yes/No/Help (the
 // hardcoded model) plus whatever's recorded here. Each entry needs real motion samples
 // captured on the physical wearable (via the "Teach VOXA your own words" trainer below,
-// then exported with the "Export library data" button) — this array is empty until that
-// data is collected and baked in.
+// then exported with the "Export library data" button).
 const DEFAULT_WEARABLE_WORDS = [
-  // { id: "default_water", word: "water", phrase: "water", samples: [[...24 numbers...], ...] },
+  {
+    id: "default_introduction",
+    word: "Introduction",
+    phrase: "Hello I am voxa.",
+    samples: [
+      [1.7002939393939396,1.4148749702992949,-1.1947,4.039,9.430931313131312,3.894990246759653,2.0949,17.3867,2.544067676767676,4.801202832326188,-3.8954,11.7699,0.49729696969696996,1.402050206989789,-2.6044,3.1437,0.13692323232323225,1.966975111910265,-3.1762,3.273,0.1399767676767677,1.5470966900779526,-2.2934,2.1717],
+      [1.7914400000000004,1.7221788425712354,-0.9242,5.7964,8.582589999999998,4.60299423828664,1.3144,17.844,4.559035999999998,4.959351208263436,-4.1108,13.975,0.4567059999999997,1.4183549795322745,-1.7736,3.5685,-0.11842500000000027,2.130193114972208,-3.4091,3.1983,0.463991,1.7829820849966496,-2.8013,2.5644],
+      [0.9502599999999998,1.6578607654444326,-2.7725,4.9728,7.757165000000003,4.939902595342847,0.237,18.1768,4.732234999999999,5.104023243724012,-3.1723,15.7778,0.3628490000000001,1.3907251710884503,-1.9087,3.3502,-0.5030480000000002,2.1912349663821997,-3.735,3.1376,0.4175850000000002,1.660169678097694,-2.2833,3.0174],
+    ],
+  },
 ];
 
 function loadDismissedDefaults() {
